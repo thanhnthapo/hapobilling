@@ -123,6 +123,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'user_paginate' => env('USER_PAGINATE'),
+
+    'avatar_icon' => 'avatar.png',
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

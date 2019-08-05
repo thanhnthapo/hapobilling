@@ -14,12 +14,7 @@ class CreateReportsTasksTable extends Migration
     public function up()
     {
         Schema::create('reports_tasks', function (Blueprint $table) {
-            $table->unsignedBigInteger('report_id')->unique();
-            $table->unique('task_id')->unique();
-            $table->foreign('report_id')->references('id')->on('reports');
-            $table->foreign('task_id')->references('id')->on('tasks');
-            $table->softDeletes();
-            $table->timestamps();
+            $table->bigIncrements('id');
         });
     }
 

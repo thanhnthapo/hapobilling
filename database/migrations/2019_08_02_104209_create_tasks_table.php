@@ -20,8 +20,6 @@ class CreateTasksTable extends Migration
             $table->date('finish_date');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

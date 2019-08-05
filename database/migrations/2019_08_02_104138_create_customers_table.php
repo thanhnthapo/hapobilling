@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('email','50');
             $table->string('address');
             $table->softDeletes();
-            $$table->date('dob');
+            $table->date('dob');
             $table->timestamps();
         });
     }
