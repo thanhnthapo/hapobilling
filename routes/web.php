@@ -11,7 +11,11 @@
 |
 */
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function(){
-    Route::get('/','DashboardController@index') -> name('backend.dashboard.index');
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::get('/', 'DashboardController@index')->name('backend.dashboard.index');
     Route::resource('user', 'UserController');
 });
+
+Route::post('login', 'Admin\LoginController@postlogin');
+Route::get('login', 'Admin\LogInController@getLogin')->name('login');
+Route::get('logout','Admin\LogInController@getLogout')->name('logout');

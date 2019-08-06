@@ -27,14 +27,9 @@
                     <p class="text-danger">{{ $errors->first('email')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>Phone<span class="text-danger">*</span></label>
-                    <input class="form-control" placeholder="" name="phone" value="{{ $user->phone  }}">
-                    <p class="text-danger">{{ $errors->first('phone')}}</p>
-                </div>
-                <div class="form-group col-sm-8">
-                    <label>Address<span class="text-danger">*</span></label>
-                    <input class="form-control" placeholder="" name="address" value="{{ $user->address }}">
-                    <p class="text-danger">{{ $errors->first('address')}}</p>
+                    <label>Status<span class="text-danger">*</span></label>
+                    <input class="form-control" placeholder="" name="status" value="{{ $user->status  }}">
+                    <p class="text-danger">{{ $errors->first('status')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
                     <label>Birthday<span class="text-danger">*</span></label>

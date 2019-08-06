@@ -104,6 +104,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::findOrFail($id);
+        $request['password'] = Hash::make($request->password);
         $avatar = $request->file('avatar')->getClientOriginalName();
         $avatarName = uniqid(). "_" . time() . "_" . $avatar;
         $request->avatar =  $avatarName;
@@ -111,12 +112,10 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'avatar' => $avatarName,
-            'gender' => $request->gender,
             'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
             'dob' => $request->dob,
             'password' => $request->password,
+            'status' =>$request->status,
         ]);
         $user->save();
         return redirect()->route('user.index')->with('success', 'User updated successfully!');
