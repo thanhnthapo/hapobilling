@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function getLogin(){
+    public function getLogin()
+    {
         return view('auth.login');
     }
 
@@ -17,7 +18,8 @@ class LoginController extends Controller
     {
         $email = $request->email;
         $password = $request->password;
-        if (Auth::attempt(array('email' => $email, 'password' => $password))){
+
+        if (Auth::attempt(array('email' => $email, 'password' => $password, 'status' => 'active'))) {
             return redirect('/admin');
 
         } else {
@@ -25,7 +27,7 @@ class LoginController extends Controller
         }
     }
 
-    public function getLogout ()
+    public function getLogout()
     {
         Auth::logout();
         return redirect('/login');

@@ -23,18 +23,18 @@ class Project extends Model
      */
     protected $dates = ['deleted_at'];
 
-    public function task()
+    public function tasks()
     {
         return $this->hasMany(Task::class);
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(Customer::class);
     }
 
-    public function assign()
+    public function users()
     {
-        return $this->hasMany(Assign::class);
+        return $this->belongsToMany(User::class);
     }
 }

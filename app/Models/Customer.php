@@ -12,6 +12,7 @@ class Customer extends Model
         'phone',
         'email',
         'address',
+        'dob',
     ];
 
     use SoftDeletes;
@@ -23,12 +24,12 @@ class Customer extends Model
      */
     protected $dates = ['deleted_at'];
 
-    public function project()
+    public function projects()
     {
         return $this->hasMany(Project::class);
     }
 
-    public function feedback()
+    public function feedbacks()
     {
         return $this->hasMany(Feedback::class);
     }

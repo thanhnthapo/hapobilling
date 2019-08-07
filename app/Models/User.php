@@ -55,18 +55,18 @@ class User extends Authenticatable
      */
     protected $dates = ['deleted_at'];
 
-    public function task()
+    public function tasks()
     {
         return $this->hasMany(Task::class);
     }
 
-    public function report()
+    public function reports()
     {
         return $this->hasMany(Report::class);
     }
 
-    public function assign()
+    public function projects()
     {
-        return $this->hasMany(Assign::class);
+        return $this->belongsToMany(Project::class);
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 <div class="content-header text-center">
-    <h2>Manager Users</h2>
+    <h2>Manager Customer</h2>
 </div>
 @section('content')
     <div class="container-fluid">
@@ -11,7 +11,7 @@
                 @if ($message = Session::get('error'))
                 @endif
                 <div class="table-responsive">
-                    <button class="btn btn-success" style="margin: 10px 0px"><a href="{{ route('user.create') }}"><i
+                    <button class="btn btn-success" style="margin: 10px 0px"><a href="{{ route('customer.create') }}"><i
                                 class="fa fa-plus"></i> Thêm mới</a></button>
                     <form class="form-search" action="/action_page.php">
                         <input type="text" placeholder="Search.." name="search-user">
@@ -22,32 +22,31 @@
                     <thead>
                     <tr>
                         <th>Name <i class="fa fa-sort"></i></th>
-                        <th>Avatar</th>
+                        <th>Email <i class="fa fa-sort"></i></th>
+                        <th>Phone <i class="fa fa-sort"></i></th>
                         <th>Birthday <i class="fa fa-sort"></i></th>
-                        <th>Email</th>
-                        <th>Status</th>
+                        <th>Address</th>
                         <th>Action</th>
                     </tr>
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($customers as $customer)
                         <tr>
-                            <td><strong>{{ $user->name }}</strong></td>
-                            <td><img class="img-thumbnail img-user"
-                                     src="{{ asset('uploads/'.$user->avatar) }}" alt=""></td>
-                            <td>{{ $user->dob }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->status }}</td>
+                            <td><strong>{{ $customer->name }}</strong></td>
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->phone }}</td>
+                            <td>{{ $customer->dob }}</td>
+                            <td>{{ $customer->address }}</td>
                             <td class="d-flex">
                                 <button class="btn btn-info"><a
-                                        href="{{ route('user.show',['id'=>$user->id]) }}"><i
+                                        href="{{ route('customer.show',['id'=>$customer->id]) }}"><i
                                             class="fa fa-eye"></i></a></button>
                                 <button class="btn btn-warning"><a
-                                        href="{{ route('user.edit',['id'=>$user->id]) }}"><i
+                                        href="{{ route('customer.edit',['id'=>$customer->id]) }}"><i
                                             class="fa fa-edit"></i></a></button>
                                 {!! Form::open([
                                     'type' => 'hidden',
                                     'method'=>'post',
-                                    'route'=>['user.destroy', $user->id]]) !!}
+                                    'route'=>['customer.destroy', $customer->id]]) !!}
                                 {!! Form::hidden('_method','delete') !!}
                                 {!! csrf_field()!!}
                                 <button type="submit" class="btn btn-danger"
@@ -60,9 +59,8 @@
                     </tbody>
                     </thead>
                 </table>
-                {{ $users->links() }}
+                {{ $customers->links() }}
             </div>
         </div>
-    </div>
     </div>
 @endsection

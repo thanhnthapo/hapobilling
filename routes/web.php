@@ -14,6 +14,9 @@
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('/', 'DashboardController@index')->name('backend.dashboard.index');
     Route::resource('user', 'UserController');
+    Route::resource('project', 'ProjectController');
+    Route::resource('customer', 'CustomerController');
+    Route::resource('assign', 'AssignController');
 });
 
 Route::post('login', 'Admin\LoginController@postlogin');
