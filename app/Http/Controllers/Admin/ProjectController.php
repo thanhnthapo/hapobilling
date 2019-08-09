@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Assign;
+use App\Models\Project_user;
 use App\Models\Project;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -21,13 +21,24 @@ class ProjectController extends Controller
     public function index()
     {
         $customers = Customer::get();
-        $projects = Project::paginate(config('app.paginate'));
-        $users = Project_user::select('id', 'user_id')->get();
+        $projects = Project::with('users')->paginate(config('app.paginate'));
+        dd($projects);
+        foreach ($projects->users as $user) {
+            dd($user);
+        }
+        foreach ($projects as $project) {
+            $users = $project->users()->get();
+            $user_name = array();
+            foreach ($users as $user) {
+                array_push($user_name, $user->name);
+            }
+            $project['user_name'] = $user_name;
+        }
         $param = [
             'projects' => $projects,
             'customers' => $customers,
-            'users' => $users,
         ];
+
         return view('backend.projects.index', $param);
     }
 

@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <title>Trang quản trị</title>
 
     <!-- Bootstrap core CSS -->

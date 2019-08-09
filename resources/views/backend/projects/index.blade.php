@@ -43,11 +43,11 @@
                                     <td>{{ $customers_name->name }}</td>
                                 @endif
                             @endforeach
-                            @foreach($users as $user)
-                                @if($user->id == $user->user_id)
-                                    <td>{{ $user->name }}</td>
-                                @endif
-                            @endforeach
+                            <td>
+                                @foreach($project->user_name as $user_name)
+                                     {{ $user_name }}<span> | </span>
+                                @endforeach
+                            </td>
                             <td class="d-flex">
                                 <button class="btn btn-info"><a
                                         href="{{ route('project.show',['id'=>$project->id]) }}"><i
