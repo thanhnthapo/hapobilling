@@ -15,6 +15,18 @@
                     <p class="text-danger">{{ $errors->first('name')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
+                    <label>User Name<span class="text-danger"> *</span></label></br>
+                    <select name="user_id[]" id="" class="table-condensed" multiple>
+                        @foreach ($project_users->user_name as $user_name)
+                            <option
+                                value="{{$user_name->id}}" {{ $user_name->id ? 'selected' : '' }}>
+                                {{$user_name->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-danger">{{ $errors->first('user_id[]')}}</p>
+                </div>
+                <div class="form-group col-sm-8">
                     <label>Start Date<span class="text-danger">*</span></label>
                     <input type="date" class="form-control" name="start_date" value="{{ $project->start_date }}">
                     <p class="text-danger">{{ $errors->first('start_date')}}</p>
@@ -27,9 +39,9 @@
                 <div class="form-group col-sm-8">
                     <label>Customer<span class="text-danger">*</span></label>
                     <select name="customer_id" id="customer_id" class="form-control">
-                        @foreach ($customer as $customeritem)
-                            <option value="{{ $customeritem->id }}" {{ $customeritem->id ? 'selected' : '' }}>
-                                {{($customeritem->id == $customeritem->customer_id)?"-":"" }}  {{$customeritem->name }}
+                        @foreach ($customer as $customer_item)
+                            <option value="{{ $customer_item->id }}" {{ $customer_item->id ? 'selected' : '' }}>
+                                {{($customer_item->id == $customer_item->customer_id)?"-":"" }}  {{$customer_item->name }}
                             </option>
                         @endforeach
                     </select>

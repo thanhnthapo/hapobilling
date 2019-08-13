@@ -16,8 +16,8 @@
     <link href="{{ asset('backend/css/sb-admin.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('backend/font-awesome/css/font-awesome.min.css') }}">
     <!-- Page Specific CSS -->
-{{--    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">--}}
-    {{-- <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css"> --}}
+    {{--    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">--}}
+     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
 </head>
 
 <body>
@@ -25,9 +25,9 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    @include('backend.partitions.top')
-    @include('backend.partitions.left')
-    @include('flash-message')
+@include('backend.partitions.top')
+@include('backend.partitions.left')
+@include('flash-message')
 @yield('content')
 
 <!-- /#page-wrapper -->

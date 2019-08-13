@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Assign;
-use App\Models\Report;
-use App\Models\Task;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -65,8 +62,8 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
-    public function projects()
+    public  function assigns()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->hasMany(Assign::class);
     }
 }

@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Project_user extends Model
+
+class Assign extends Model
 {
+    protected $table = 'assigns';
     protected $fillable = [
         'start_date',
         'finish_date',

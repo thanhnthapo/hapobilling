@@ -27,9 +27,9 @@
                     <label>Customer<span class="text-danger"> *</span></label>
                     <select name="customer_id" id="customer_id" class="form-control">
                         <option value="">Khách hàng</option>
-                        @foreach ($customer as $customeritem)
-                            <option value="{{ $customeritem->id }}" {{ ($customeritem->id ==  old('customer_id')) ? 'selected' : '' }}>
-                                {{($customeritem->id==$customeritem->category_id)?"-":"" }}  {{$customeritem->name }}
+                        @foreach ($customer as $customer_item)
+                            <option value="{{ $customer_item->id }}" {{ ($customer_item->id ==  old('customer_id')) ? 'selected' : '' }}>
+                                {{($customer_item->id==$customer_item->category_id)?"-":"" }}  {{$customer_item->name }}
                             </option>
                         @endforeach
                     </select>

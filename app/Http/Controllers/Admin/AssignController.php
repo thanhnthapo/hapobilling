@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Project;
+use App\Models\Assign;
+use App\Http\Requests\CreateAssignRequest;
 
 
 class AssignController extends Controller
@@ -21,16 +23,16 @@ class AssignController extends Controller
         return view('backend.assigns.create', $param);
     }
 
-    public function store(Request $request)
+    public function store(CreateAssignRequest $request)
     {
-        $assign = Project::findOrFail($request->get('project_id'));
-        $assign->users()->attach(
-            $request->get('user_id'),
-            [
-                'start_date' => $request->get('start_date'),
-                'finish_date' => $request->get('finish_date')
-            ]
-        );
+        Assign::create($request->all());
+//        $assign->users()->attach(
+//            $request->get('user_id'),
+//            [
+//                'start_date' => $request->get('start_date'),
+//                'finish_date' => $request->get('finish_date')
+//            ]
+//        );
         return redirect()->route('project.index');
     }
 }

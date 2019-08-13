@@ -33,8 +33,8 @@ class Project extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function users()
+    public  function assigns()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(Assign::class);
     }
 }

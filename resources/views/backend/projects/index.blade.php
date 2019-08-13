@@ -13,8 +13,7 @@
                 <div class="d-flex justify-content-end">
                     <button class="btn btn-success" style="margin: 10px 0px"><a href="{{ route('project.create') }}"><i
                                 class="fa fa-plus"></i> Thêm mới</a></button>
-                    <button class="btn btn-success" style="margin: 10px 0px"><a href="{{ route('assign.create') }}"><i
-                                class="fa fa-plus"></i> Add User For Project</a></button>
+
                 </div>
                 <div class="form-search">
                     <form action="/action_page.php">
@@ -22,6 +21,10 @@
                         <button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
+                <button class="btn btn-success" style="margin: 10px 0px"><a
+                        href="{{ route('assign.create') }}"><i
+                            class="fa fa-plus"></i> Assign User</a>
+                </button>
                 <table class="table table-responsive table-bordered tablesorter table-hover text-center">
                     <thead>
                     <tr>
@@ -30,7 +33,7 @@
                         <th>Finish_date <i class="fa fa-sort"></i></th>
                         <th>Customer</th>
                         <th>UserName</th>
-                        <th>Action</th>
+                        <th class="w-200">Action</th>
                     </tr>
                     <tbody>
                     @foreach($projects as $project)
@@ -38,23 +41,29 @@
                             <td><strong>{{ $project->name }}</strong></td>
                             <td>{{ $project->start_date }}</td>
                             <td>{{ $project->finish_date }}</td>
-                            @foreach($customers as $customers_name)
-                                @if($customers_name->id == $project->customer_id)
-                                    <td>{{ $customers_name->name }}</td>
-                                @endif
-                            @endforeach
                             <td>
-                                @foreach($project->user_name as $user_name)
-                                     {{ $user_name }}<span> | </span>
+                                @foreach($customers as $customers_name)
+                                    @if($customers_name->id == $project->customer_id)
+                                        {{ $customers_name->name }}
+                                    @endif
                                 @endforeach
                             </td>
-                            <td class="d-flex">
-                                <button class="btn btn-info"><a
-                                        href="{{ route('project.show',['id'=>$project->id]) }}"><i
-                                            class="fa fa-eye"></i></a></button>
-                                <button class="btn btn-warning"><a
-                                        href="{{ route('project.edit',['id'=>$project->id]) }}"><i
-                                            class="fa fa-edit"></i></a></button>
+                            <td>
+                                @foreach($assigns as $assign)
+                                    @foreach($users as $user)
+                                        @if($assign->user_id == $user->id)
+                                            {{ $user->name }} <span>,</span>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </td>
+                            <td class="action p-2">
+                                <form id="">
+                                    <button class="btn btn-warning"><a
+                                            href="{{ route('project.edit', ['id' => $project->id]) }}"><i
+                                                class="fa fa-edit"></i></a>
+                                    </button>
+                                </form>
                                 {!! Form::open([
                                     'type' => 'hidden',
                                     'method'=>'post',

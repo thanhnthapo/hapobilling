@@ -13,19 +13,20 @@
                     <select name="user_id" id="user_id" class="form-control">
                         <option value="">Vui lòng chọn</option>
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}" {{ ($user->id ==  old('user_id')) ? 'selected' : '' }}>
+                            <option
+                                value="{{ $user->id }}" {{ ($user->id ==  old('user_id')) ? 'selected' : '' }}>
                                 {{($user->id==$user->user_id)?"-":"" }}  {{$user->name }}
                             </option>
                         @endforeach
                     </select>
-                    <p class="text-danger">{{ $errors->first('user_id')}}</p>
-                </div>
+                    <p
                 <div class="form-group col-sm-8">
-                    <label>User Name<span class="text-danger"> *</span></label>
+                    <label>Project Name<span class="text-danger"> *</span></label>
                     <select name="project_id" id="project_id" class="form-control">
                         <option value="">Vui lòng chọn</option>
                         @foreach ($projects as $project)
-                            <option value="{{ $project->id }}" {{ ($project->id ==  old('project_id')) ? 'selected' : '' }}>
+                            <option
+                                value="{{ $project->id }}" {{ ($project->id ==  old('project_id')) ? 'selected' : '' }}>
                                 {{($project->id==$project->project_id)?"-":"" }}  {{$project->name }}
                             </option>
                         @endforeach

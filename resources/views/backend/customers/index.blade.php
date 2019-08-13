@@ -36,13 +36,19 @@
                             <td>{{ $customer->phone }}</td>
                             <td>{{ $customer->dob }}</td>
                             <td>{{ $customer->address }}</td>
-                            <td class="d-flex">
-                                <button class="btn btn-info"><a
-                                        href="{{ route('customer.show',['id'=>$customer->id]) }}"><i
-                                            class="fa fa-eye"></i></a></button>
-                                <button class="btn btn-warning"><a
-                                        href="{{ route('customer.edit',['id'=>$customer->id]) }}"><i
-                                            class="fa fa-edit"></i></a></button>
+                            <td class="action">
+                                <form action="">
+                                    <button class="btn btn-info"><a
+                                            href="{{ route('customer.show',['id'=>$customer->id]) }}"><i
+                                                class="fa fa-eye"></i></a>
+                                    </button>
+                                </form>
+                                <form action="">
+                                    <button class="btn btn-warning"><a
+                                            href="{{ route('customer.edit',['id'=>$customer->id]) }}"><i
+                                                class="fa fa-edit"></i></a>
+                                    </button>
+                                </form>
                                 {!! Form::open([
                                     'type' => 'hidden',
                                     'method'=>'post',

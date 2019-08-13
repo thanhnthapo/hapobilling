@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Project_user;
+use App\Models\Assign;
 use App\Models\Project;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProjectRequest;
@@ -21,22 +22,14 @@ class ProjectController extends Controller
     public function index()
     {
         $customers = Customer::get();
-        $projects = Project::with('users')->paginate(config('app.paginate'));
-        dd($projects);
-        foreach ($projects->users as $user) {
-            dd($user);
-        }
-        foreach ($projects as $project) {
-            $users = $project->users()->get();
-            $user_name = array();
-            foreach ($users as $user) {
-                array_push($user_name, $user->name);
-            }
-            $project['user_name'] = $user_name;
-        }
+        $projects = Project::paginate(config('app.paginate'));
+        $users = User::select('id', 'name')->get();
+        $assigns = Assign::get();
         $param = [
             'projects' => $projects,
             'customers' => $customers,
+            'assigns' => $assigns,
+            'users' => $users,
         ];
 
         return view('backend.projects.index', $param);
@@ -64,7 +57,7 @@ class ProjectController extends Controller
      */
     public function store(CreateProjectRequest $request)
     {
-        $project = Project::create($request->all());
+        Project::create($request->all());
         return redirect()->route('project.index');
     }
 
@@ -89,6 +82,15 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $customer = Customer::get();
+//        $project_users = Project::with('users')->get();
+//        foreach ($project_users as $project) {
+//            $users = $project->users()->get();
+//            $user_name = array();
+//            foreach ($users as $user) {
+//                array_push($user_name, $user->name);
+//            }
+//            $project['user_name'] = $user_name;
+//        }
         $param = [
             'project' => $project,
             'customer' => $customer,
