@@ -15,16 +15,18 @@
                                 class="fa fa-plus"></i> Thêm mới</a></button>
 
                 </div>
-                <div class="form-search">
+                <div class="form-search d-flex">
                     <form action="/action_page.php">
                         <input type="text" placeholder="Search.." name="search-user">
                         <button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
-                <button class="btn btn-success" style="margin: 10px 0px"><a
-                        href="{{ route('assign.create') }}"><i
-                            class="fa fa-plus"></i> Assign User</a>
-                </button>
+                <div class="add-assign">
+                    <button class="btn btn-success" style="margin: 10px 0px"><a
+                            href="{{ route('assign.create') }}"><i
+                                class="fa fa-plus"></i> Assign User</a>
+                    </button>
+                </div>
                 <table class="table table-responsive table-bordered tablesorter table-hover text-center">
                     <thead>
                     <tr>
@@ -58,22 +60,18 @@
                                 @endforeach
                             </td>
                             <td class="action">
-                                <form action="{{  route('project.edit', ['id' => $project->id])}}">
-                                    <button class="btn btn-warning"><a
-                                            href="{{  route('project.edit', ['id' => $project->id])}}"><i
-                                                class="fa fa-edit"></i></a>
+                                <button class="btn btn-warning"><a
+                                        href="{{  route('project.edit', ['id' => $project->id])}}"><i
+                                            class="fa fa-edit"></i></a>
+                                </button>
+                                <form method="POST" action="{{ route('project.destroy', [$project->id]) }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button class="btn btn-danger" type="submit" title="Delete"
+                                            onclick="return confirm('Bạn có chắc chắng muốn xóa {{ $project->name }} ?')">
+                                        <i class="fa fa-trash-o"></i>
                                     </button>
                                 </form>
-                                {!! Form::open([
-                                    'type' => 'hidden',
-                                    'method'=>'post',
-                                    'route'=>['project.destroy', $project->id]]) !!}
-                                {!! Form::hidden('_method','delete') !!}
-                                {!! csrf_field()!!}
-                                <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Xác nhận xóa?')"><i class="fa fa-trash-o"></i>
-                                </button>
-                                {!! Form::close() !!}
                             </td>
                         </tr>
                     @endforeach

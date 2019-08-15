@@ -9,7 +9,9 @@
             <a href="{{ route('project.index') }}"><i class="fa fa-calendar"></i>&nbsp; Manager Projects</a>
         </li>
         <li class=""><a href="{{ route('customer.index') }}"><i class="fa fa-users"></i>&nbsp; Manager Customer</a></li>
-        <li class=""><a href="{{ route('customer.index') }}"><i class="fa fa-folder"></i>&nbsp; Manager Department</a>
+        <li class=""><a href="{{ route('department.index') }}"><i class="fa fa-folder"></i>&nbsp; Manager Department</a>
+        </li>
+        <li class=""><a href="{{ route('customer.index') }}"><i class="fa fa-calendar"></i>&nbsp; Report</a>
         </li>
     </ul>
 </div>

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
-class UpdateUserRequest extends FormRequest
+class CreateDepartmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +24,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50',
-            'email' => 'required|email|unique:users,email,'.$this->user,
-            'status' => 'required',
-            'department_id' => 'required',
-            'avatar' => 'required|mimes:jpg,png,jpeg',
-            'password' => 'required|min:6',
-            'dob' => 'required|date',
+            'name' => 'required',
         ];
     }
 }

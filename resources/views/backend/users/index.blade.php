@@ -24,6 +24,7 @@
                     <th>Avatar</th>
                     <th>Birthday <i class="fa fa-sort"></i></th>
                     <th>Email</th>
+                    <th>Department</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -35,26 +36,29 @@
                                  src="{{ asset('storage/'.$user->avatar) }}" alt=""></td>
                         <td>{{ $user->dob }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>
+                            @foreach($departments as $department_name)
+                                @if($department_name->id == $user->department_id)
+                                    {{ $department_name->name }}
+                                @endif
+                            @endforeach
+                        </td>
                         <td>{{ $user->status }}</td>
-                        <td class="d-flex">
-                            <button class="btn btn-info"><a
-                                    href="{{ route('user.show',['id'=>$user->id]) }}"><i
-                                        class="fa fa-eye"></i></a>
+                        <td class="action">
+                            <button type="submit" class="btn btn-info"><i class="fa fa-eye"></i><a
+                                    href="{{ route('user.show',['id'=>$user->id]) }}"></a>
                             </button>
-                            <button class="btn btn-warning"><a
-                                    href="{{ route('user.edit',['id'=>$user->id]) }}"><i
-                                        class="fa fa-edit"></i></a>
+                            <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i><a
+                                    href="{{ route('user.edit',['id'=>$user->id]) }}"></a>
                             </button>
-                            {!! Form::open([
-                                'type' => 'hidden',
-                                'method'=>'post',
-                                'route'=>['user.destroy', $user->id]]) !!}
-                            {!! Form::hidden('_method','delete') !!}
-                            {!! csrf_field()!!}
-                            <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Xác nhận xóa?')"><i class="fa fa-trash-o"></i>
-                            </button>
-                            {!! Form::close() !!}
+                            <form method="POST" action="{{ route('user.destroy', [$user->id]) }}">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <button class="btn btn-danger" type="submit" title="Delete"
+                                        onclick="return confirm('Bạn có chắc chắng muốn xóa {{ $user->name }} ?')">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

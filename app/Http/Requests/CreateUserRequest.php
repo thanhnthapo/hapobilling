@@ -30,6 +30,7 @@ class CreateUserRequest extends FormRequest
             'email' => 'required|email|unique:users',
             'avatar' => 'mimes:jpg,png,jpeg',
             'status' => 'required',
+            'department_id' => 'required',
             'dob'   => 'required|date',
             'password'   => 'required|min:6',
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -22,8 +23,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(config('app.paginate'));
+        $departments = Department::all();
         $param = [
             'users' => $users,
+            'departments' => $departments,
         ];
         return view('backend.users.index', $param);
     }
@@ -35,7 +38,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('backend.users.create');
+        $departments = Department::all();
+        $param = [
+            'departments' => $departments,
+        ];
+        return view('backend.users.create', $param);
     }
 
     /**
@@ -54,7 +61,7 @@ class UserController extends Controller
         } else {
             $input['avatar'] = config('app.avatar_icon');
         }
-        User::update($input);
+        User::create($input);
         return redirect()->route('user.index')->with('success', 'User create successfully!');
     }
 
@@ -82,8 +89,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        $departments = Department::all();
         $param = [
-            'user' => $user
+            'user' => $user,
+            'departments' => $departments,
         ];
         return view('backend.users.edit', $param);
     }

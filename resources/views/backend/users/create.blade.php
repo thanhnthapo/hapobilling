@@ -19,6 +19,19 @@
                     <p class="text-danger">{{ $errors->first('avatar')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
+                    <label>Department<span class="text-danger"> *</span></label>
+                    <select name="department_id" id="department_id" class="form-control">
+                        <option value="">Select Department</option>
+                        @foreach ($departments as $department_item)
+                            <option
+                                value="{{ $department_item->id }}" {{ ($department_item->id ==  old('department_id')) ? 'selected' : '' }}>
+                                {{ ($department_item->id == $department_item->department_id) ? "-" : "" }}  {{ $department_item->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-danger">{{ $errors->first('department_id')}}</p>
+                </div>
+                <div class="form-group col-sm-8">
                     <label>Email<span class="text-danger"> *</span></label>
                     <input class="form-control" name="email" value="{{ old('email') }}">
                     <p class="text-danger">{{ $errors->first('email')}}</p>

@@ -17,5 +17,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::resource('project', 'ProjectController');
     Route::resource('customer', 'CustomerController');
     Route::resource('assign', 'AssignController');
+    Route::resource('department', 'DepartmentController');
 });
 

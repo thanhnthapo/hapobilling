@@ -49,16 +49,14 @@
                                                 class="fa fa-edit"></i></a>
                                     </button>
                                 </form>
-                                {!! Form::open([
-                                    'type' => 'hidden',
-                                    'method'=>'post',
-                                    'route'=>['customer.destroy', $customer->id]]) !!}
-                                {!! Form::hidden('_method','delete') !!}
-                                {!! csrf_field()!!}
-                                <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Xác nhận xóa?')"><i class="fa fa-trash-o"></i>
-                                </button>
-                                {!! Form::close() !!}
+                                <form method="POST" action="{{ route('customer.destroy', [$customer->id]) }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button class="btn btn-danger" type="submit" title="Delete"
+                                            onclick="return confirm('Bạn có chắc chắng muốn xóa {{ $customer->name }} ?')">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

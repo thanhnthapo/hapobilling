@@ -27,9 +27,10 @@
                 <div class="form-group col-sm-8">
                     <label>Customer<span class="text-danger">*</span></label>
                     <select name="customer_id" id="customer_id" class="form-control">
+                        <option value="">Select Customer</option>
                         @foreach ($customer as $customer_item)
-                            <option value="{{ $customer_item->id }}" {{ $customer_item->id ? 'selected' : '' }}>
-                                {{($customer_item->id == $customer_item->customer_id)?"-":"" }}  {{$customer_item->name }}
+                            <option value="{{ $customer_item->id }}" {{( $customer_item->id == $project->customer_id ) ? 'selected' : '' }}>
+                                {{ $customer_item->name }}
                             </option>
                         @endforeach
                     </select>

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'password',
         'dob',
         'avatar',
+        'department_id',
         'status',
     ];
 
@@ -62,8 +63,13 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
-    public  function assigns()
+    public function assigns()
     {
         return $this->hasMany(Assign::class);
+    }
+
+    public function departments()
+    {
+        return $this->hasMany(Department::class);
     }
 }
