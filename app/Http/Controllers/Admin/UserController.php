@@ -31,6 +31,14 @@ class UserController extends Controller
         return view('backend.users.index', $param);
     }
 
+//    function fetch_data(Request $request)
+//    {
+//        if ($request->ajax()) {
+//            $users = User::paginate(config('app.paginate'));
+//            return view('backend.user.pagination', compact('users'))->render();
+//        }
+//    }
+
     /**
      * Show the form for creating a new resource.
      *

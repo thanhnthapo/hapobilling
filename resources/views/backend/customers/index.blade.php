@@ -3,7 +3,7 @@
     <h2>Manager Customer</h2>
 </div>
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-12">
                 @if ($message = Session::get('success'))
@@ -37,18 +37,15 @@
                             <td>{{ $customer->dob }}</td>
                             <td>{{ $customer->address }}</td>
                             <td class="action">
-                                <form action="">
-                                    <button class="btn btn-info"><a
-                                            href="{{ route('customer.show',['id'=>$customer->id]) }}"><i
-                                                class="fa fa-eye"></i></a>
-                                    </button>
-                                </form>
-                                <form action="">
-                                    <button class="btn btn-warning"><a
-                                            href="{{ route('customer.edit',['id'=>$customer->id]) }}"><i
-                                                class="fa fa-edit"></i></a>
-                                    </button>
-                                </form>
+                                <button class="btn btn-info"><a
+                                        href="{{ route('customer.show',['id'=>$customer->id]) }}"><i
+                                            class="fa fa-eye"></i></a>
+                                </button>
+
+                                <button class="btn btn-warning"><a
+                                        href="{{ route('customer.edit',['id'=>$customer->id]) }}"><i
+                                            class="fa fa-edit"></i></a>
+                                </button>
                                 <form method="POST" action="{{ route('customer.destroy', [$customer->id]) }}">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}

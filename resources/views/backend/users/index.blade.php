@@ -45,11 +45,11 @@
                         </td>
                         <td>{{ $user->status }}</td>
                         <td class="action">
-                            <button type="submit" class="btn btn-info"><i class="fa fa-eye"></i><a
-                                    href="{{ route('user.show',['id'=>$user->id]) }}"></a>
+                            <button type="submit" class="btn btn-info"><a
+                                    href="{{ route('user.show',['id'=>$user->id]) }}"><i class="fa fa-eye"></i></a>
                             </button>
-                            <button type="submit" class="btn btn-warning"><i class="fa fa-edit"></i><a
-                                    href="{{ route('user.edit',['id'=>$user->id]) }}"></a>
+                            <button type="submit" class="btn btn-warning"><a
+                                    href="{{ route('user.edit',['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
                             </button>
                             <form method="POST" action="{{ route('user.destroy', [$user->id]) }}">
                                 {{ csrf_field() }}
@@ -68,5 +68,4 @@
             {{ $users->links() }}
         </div>
     </div>
-
 @endsection
