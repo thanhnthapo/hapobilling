@@ -57,10 +57,10 @@
                                     @endforeach
                                 @endforeach
                             </td>
-                            <td class="action p-2">
-                                <form id="">
+                            <td class="action">
+                                <form action="{{  route('project.edit', ['id' => $project->id])}}">
                                     <button class="btn btn-warning"><a
-                                            href="{{ route('project.edit', ['id' => $project->id]) }}"><i
+                                            href="{{  route('project.edit', ['id' => $project->id])}}"><i
                                                 class="fa fa-edit"></i></a>
                                     </button>
                                 </form>

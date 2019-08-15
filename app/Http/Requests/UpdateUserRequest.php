@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'email' => 'required|email|unique:users,email,' . $this->user,
+            'email' => 'required|email|unique:users,email,'.$this->user,
             'status' => 'required',
             'avatar' => 'required|mimes:jpg,png,jpeg',
             'password' => 'required|min:6',

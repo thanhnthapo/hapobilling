@@ -11,29 +11,17 @@
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group col-sm-8">
                     <label>Name<span class="text-danger">*</span></label>
-                    <input class="form-control" name="name" value="{{ $project->name }}">
+                    <input class="form-control" name="name" value="{{ old('name', $project->name) }}">
                     <p class="text-danger">{{ $errors->first('name')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>User Name<span class="text-danger"> *</span></label></br>
-                    <select name="user_id[]" id="" class="table-condensed" multiple>
-                        @foreach ($project_users->user_name as $user_name)
-                            <option
-                                value="{{$user_name->id}}" {{ $user_name->id ? 'selected' : '' }}>
-                                {{$user_name->name}}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-danger">{{ $errors->first('user_id[]')}}</p>
-                </div>
-                <div class="form-group col-sm-8">
                     <label>Start Date<span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" name="start_date" value="{{ $project->start_date }}">
+                    <input type="date" class="form-control" name="start_date" value="{{ old('start_date', $project->start_date) }}">
                     <p class="text-danger">{{ $errors->first('start_date')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
                     <label>Finish Date<span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" name="finish_date" value="{{ $project->finish_date }}">
+                    <input type="date" class="form-control" name="finish_date" value="{{ old('finish_date', $project->finish_date) }}">
                     <p class="text-danger">{{ $errors->first('finish_date')}}</p>
                 </div>
                 <div class="form-group col-sm-8">

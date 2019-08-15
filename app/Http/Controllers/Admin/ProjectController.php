@@ -82,15 +82,6 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $customer = Customer::get();
-//        $project_users = Project::with('users')->get();
-//        foreach ($project_users as $project) {
-//            $users = $project->users()->get();
-//            $user_name = array();
-//            foreach ($users as $user) {
-//                array_push($user_name, $user->name);
-//            }
-//            $project['user_name'] = $user_name;
-//        }
         $param = [
             'project' => $project,
             'customer' => $customer,

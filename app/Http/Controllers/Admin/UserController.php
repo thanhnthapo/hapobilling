@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -46,14 +48,13 @@ class UserController extends Controller
     {
         $input = $request->except('avatar');
         $request['password'] = Hash::make($request->password);
-//        $user = $request->all();
         if ($request->hasFile('avatar')) {
             $storagePath = $request->avatar->store('avatar', ['disk' => 'public']);
             $input['avatar'] = $storagePath;
         } else {
             $input['avatar'] = config('app.avatar_icon');
         }
-        $user = User::create($input);
+        User::update($input);
         return redirect()->route('user.index')->with('success', 'User create successfully!');
     }
 
@@ -97,20 +98,16 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::findOrFail($id);
+        $input = $request->except('avatar');
         $request['password'] = Hash::make($request->password);
-        $avatar = $request->file('avatar')->getClientOriginalName();
-        $avatarName = uniqid() . "_" . $avatar;
-        $request->avatar = $avatarName;
-//        $request->file('avatar')->move('uploads', $avatarName);;
-        $user->update([
-            'name' => $request->name,
-            'avatar' => $avatarName,
-            'email' => $request->email,
-            'dob' => $request->dob,
-            'password' => $request->password,
-            'status' => $request->status,
-        ]);
-        $user->save();
+        if ($request->hasFile('avatar')) {
+            Storage::disk('public')->delete('/' . $user->avatar);
+            $storagePath = $request->avatar->store('avatar', ['disk' => 'public']);
+            $input['avatar'] = $storagePath;
+        } else {
+            $input['avatar'] = config('app.avatar_icon');
+        }
+        $user->update($input);
         return redirect()->route('user.index')->with('success', 'User updated successfully!');
     }
 

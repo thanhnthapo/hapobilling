@@ -12,7 +12,7 @@
         <ul class="navbar-nav ml-auto nav navbar-nav navbar-right navbar-user">
             <li class="dropdown user-dropdown">
                 <div class="user-profile">
-                    <img src="{{ asset('uploads/'. Auth::user()->avatar) }}" alt="" class="img-circle">
+                    <img src="{{ asset('storage/'. Auth::user()->avatar) }}" alt="" class="img-circle">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }} <span class="caret"></span>
