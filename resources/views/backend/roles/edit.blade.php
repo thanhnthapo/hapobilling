@@ -27,27 +27,11 @@
                     <p class="text-danger">{{ $errors->first('email')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>Role<span class="text-danger"> *</span></label>
-                    <select name="role[]" id="role" class="form-control" multiple='multiple'>
-                        @foreach ($roles as $role)
-                            <option
-                                {{ $rolesUser->contains($role->id) ? 'selected' : '' }}
-                                value="{{ $role->id }}">
-                                {{ $role->display_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('role'))
-                        <span class="text-danger">{{$errors->first('role')}}</span>
-                    @endif
-                </div>
-                <div class="form-group col-sm-8">
                     <label>Department<span class="text-danger"> *</span></label>
                     <select name="department_id" id="department_id" class="form-control">
                         <option value="">Select Department</option>
                         @foreach ($departments as $department_item)
-                            <option
-                                value="{{ $department_item->id }}" {{( $department_item->id == $user->department_id ) ? 'selected' : '' }}>
+                            <option value="{{ $department_item->id }}" {{( $department_item->id == $user->department_id ) ? 'selected' : '' }}>
                                 {{ $department_item->name }}
                             </option>
                         @endforeach

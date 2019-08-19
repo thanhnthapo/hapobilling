@@ -12,11 +12,12 @@
 */
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth', 'isAdmin'], function () {
-    Route::get('/', 'DashboardController@index')->name('backend.dashboard.index')->middleware('auth');;
+    Route::get('/', 'DashboardController@index')->name('backend.dashboard.index');
     Route::resource('user', 'UserController');
     Route::resource('project', 'ProjectController');
     Route::resource('customer', 'CustomerController');
     Route::resource('assign', 'AssignController');
     Route::resource('department', 'DepartmentController');
+    Route::resource('role', 'RoleController');
 });
 

@@ -19,9 +19,7 @@
     <!-- Page Specific CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ asset('js/app.js') }}" defer>
-    </script><script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{--    <script src="{{ asset('js/app.js') }}" defer>--}}
 </head>
 
 <body>
@@ -42,14 +40,17 @@
 <script src="{{ asset('backend/js/jquery-1.10.2.js') }}"></script>
 <script src="{{ asset('backend/js/bootstrap.js') }}"></script>
 <!-- Page Specific Plugins -->
-{{--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>--}}
-{{-- <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script> --}}
-{{--<script src="https://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>--}}
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
 <script src="{{ asset('backend/js/morris/chart-data-morris.js') }}"></script>
 <script src="{{ asset('backend/js/tablesorter/jquery.tablesorter.js') }}"></script>
 <script src="{{ asset('backend/js/tablesorter/tables.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
+<script src="{{ asset('backend/js/flot/jquery.flot.js') }}"></script>
+<script src="{{ asset('backend/js/flot/jquery.flot.tooltip.min.js') }}"></script>
+<script src="{{ asset('backend/js/flot/jquery.flot.resize.js') }}"></script>
+<script src="{{ asset('backend/js/flot/jquery.flot.pie.js') }}"></script>
+<script src="{{ asset('backend/js/flot/chart-data-flot.js') }}"></script>
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>--}}
 
 </body>

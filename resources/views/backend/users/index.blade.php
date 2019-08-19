@@ -25,6 +25,7 @@
                     <th>Birthday <i class="fa fa-sort"></i></th>
                     <th>Email</th>
                     <th>Department</th>
+                    <th>Role</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -41,6 +42,11 @@
                                 @if($department_name->id == $user->department_id)
                                     {{ $department_name->name }}
                                 @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($user->roles as $role)
+                                {{ $role->display_name }}
                             @endforeach
                         </td>
                         <td>{{ $user->status }}</td>

@@ -26,13 +26,6 @@ class AssignController extends Controller
     public function store(CreateAssignRequest $request)
     {
         Assign::create($request->all());
-//        $assign->users()->attach(
-//            $request->get('user_id'),
-//            [
-//                'start_date' => $request->get('start_date'),
-//                'finish_date' => $request->get('finish_date')
-//            ]
-//        );
         return redirect()->route('project.index');
     }
 }

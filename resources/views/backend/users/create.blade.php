@@ -19,6 +19,11 @@
                     <p class="text-danger">{{ $errors->first('avatar')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
+                    <label>Email<span class="text-danger"> *</span></label>
+                    <input class="form-control" name="email" value="{{ old('email') }}">
+                    <p class="text-danger">{{ $errors->first('email')}}</p>
+                </div>
+                <div class="form-group col-sm-8">
                     <label>Department<span class="text-danger"> *</span></label>
                     <select name="department_id" id="department_id" class="form-control">
                         <option value="">Select Department</option>
@@ -32,13 +37,20 @@
                     <p class="text-danger">{{ $errors->first('department_id')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>Email<span class="text-danger"> *</span></label>
-                    <input class="form-control" name="email" value="{{ old('email') }}">
-                    <p class="text-danger">{{ $errors->first('email')}}</p>
+                    <label>Select Role<span class="text-danger"> *</span></label>
+                    <select name="role[]" id="role" class="form-control" multiple="multiple">
+                        @foreach ($roles as $role_item)
+                            <option
+                                value="{{ $role_item->id }}" {{ in_array($role_item->id, old('role', [])) ? 'selected' : '' }}>
+                                {{$role_item->display_name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-danger">{{ $errors->first('department_id')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
                     <label>Birthday<span class="text-danger"> *</span></label>
-                    <input  type="date" class="form-control" name="dob" value="{{ old('dob')  }}">
+                    <input type="date" class="form-control" name="dob" value="{{ old('dob')  }}">
                     <p class="text-danger">{{ $errors->first('dob')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
@@ -51,6 +63,21 @@
                     <input class="form-control" placeholder="" name="status" value="{{ old('status') }}">
                     <p class="text-danger">{{ $errors->first('status')}}</p>
                 </div>
+{{--                <div class="form-group col-sm-6">--}}
+{{--                    <label for="status">Status</label>--}}
+{{--                    <label class="radio-custom">Active--}}
+{{--                        <input type="radio" name="status" value="1" {{(old('status')==1)?"checked="."checked":""}}>--}}
+{{--                        <span class="checkmark" ></span>--}}
+{{--                    </label>--}}
+
+{{--                    <label class="radio-custom">Block--}}
+{{--                        <input type="radio" name="status" value="0"{{(old('status')==0)?"checked="."checked":""}}>--}}
+{{--                        <span class="checkmark"></span>--}}
+{{--                    </label>--}}
+{{--                    @if($errors->has('status'))--}}
+{{--                        <span class="text-danger">{{$errors->first('status')}}</span>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
                 <div class="form-group col-sm-8">
                     <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Thêm Mới</button>
                 </div>
