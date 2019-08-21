@@ -53,10 +53,10 @@ class RoleController extends Controller
                 'display_name' => $request->display_name,
             ]);
 
-            $role->permissions()->attach($request->permission);
+            $role->permissions()->attach($request->permissions);
             DB::commit();
             return redirect()->route('role.index')->with([
-                'status' => 'Thêm thành công',
+                'success' => 'Thêm role thành công',
             ]);
 
 
@@ -85,7 +85,15 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::with('permissions')->findOrFail($id);
+        $permissions = Permission::all();
+        $rolePermission = DB::table('permission_role')->where('role_id', $id)->pluck('permission_id');
+        $param = [
+            'permissions' => $permissions,
+            'role' => $role,
+            'rolePermission' => $rolePermission,
+        ];
+        return view('backend.roles.edit', $param);
     }
 
     /**
@@ -97,7 +105,25 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $role = Role::findOrFail($id);
+            $role->update([
+                'name' => $request->name,
+                'display_name' => $request->display_name,
+            ]);
+            DB::table('permission_role')->where('role_id', $id)->delete();
+            $role->permissions()->attach($request->permissions);
+            DB::commit();
+            return redirect()->route('role.index')->with([
+                'success' => 'Update role successfully',
+            ]);
+
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error('error:' . $e->getMessage());
+        }
     }
 
     /**
@@ -108,6 +134,15 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $role = Role::find($id);
+            $role->delete();
+            $role->users()->detach();
+            $role->permissions()->detach();
+            DB::commit();
+            return redirect()->route('role.index')->with('success', 'Role deleted successfully!');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+        }
     }
 }

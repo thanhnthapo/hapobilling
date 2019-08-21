@@ -51,9 +51,9 @@
                                 @endforeach
                             </td>
                             <td>
-                                @foreach($assigns as $assign)
-                                    @foreach($users as $user)
-                                        @if($assign->user_id == $user->id)
+                                @foreach($users as $user)
+                                    @foreach($assigns as $assign)
+                                        @if($user->id == $assign->user_id && $project->id == $assign->project_id)
                                             {{ $user->name }} <span>,</span>
                                         @endif
                                     @endforeach

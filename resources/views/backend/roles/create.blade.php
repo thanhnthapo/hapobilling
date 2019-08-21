@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group col-sm-8">
                     <label>Display_name<span class="text-danger"> *</span></label>
-                    <input class="form-control" name="email" value="{{ old('display_name') }}">
+                    <input class="form-control" name="display_name" value="{{ old('display_name') }}">
                     <p class="text-danger">{{ $errors->first('display_name')}}</p>
                 </div>
                 @foreach( $permissions as $permission)

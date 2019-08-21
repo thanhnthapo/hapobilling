@@ -198,6 +198,7 @@ class UserController extends Controller
         try {
             $user = User::find($id);
             $user->delete();
+            $user->assigns()->detach();
             $user->roles()->detach();
             DB::commit();
             return redirect()->route('user.index')->with('success', 'User deleted successfully!');

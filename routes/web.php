@@ -13,11 +13,11 @@
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth', 'isAdmin'], function () {
     Route::get('/', 'DashboardController@index')->name('backend.dashboard.index');
-    Route::resource('user', 'UserController');
-    Route::resource('project', 'ProjectController');
-    Route::resource('customer', 'CustomerController');
+    Route::resource('user', 'UserController')->middleware('checkPermission:User');
+    Route::resource('project', 'ProjectController')->middleware('checkPermission:Project');
+    Route::resource('customer', 'CustomerController')->middleware('checkPermission:Customer');
     Route::resource('assign', 'AssignController');
-    Route::resource('department', 'DepartmentController');
-    Route::resource('role', 'RoleController');
+    Route::resource('department', 'DepartmentController')->middleware('checkPermission:Department');
+    Route::resource('role', 'RoleController')->middleware('checkPermission:Role');
 });
 
