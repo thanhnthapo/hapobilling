@@ -121,4 +121,11 @@ class ProjectController extends Controller
         $project->delete();
         return redirect()->route('project.index')->with('success', 'Project deleted successfully!');
     }
+
+    public function deleteAjax(Request $request)
+    {
+        return response()->json([
+            'status' => Project::destroy($request->id)
+        ]);
+    }
 }

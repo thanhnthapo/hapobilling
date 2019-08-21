@@ -84,23 +84,6 @@ class UserController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('user.index')->with(['error', 'Vui lòng kiểm tra lại']);
-
-
-//            $input = $request->except(['avatar', 'role_id']);
-//            $request['password'] = Hash::make($request->password);
-//            $user->roles()->attach($request->role());
-//            if ($request->hasFile('avatar')) {
-//                $storagePath = $request->avatar->store('avatar', ['disk' => 'public']);
-//                $input['avatar'] = $storagePath;
-//            } else {
-//                $input['avatar'] = config('app.avatar_icon');
-//            }
-//            dd($input);
-//            User::create($input);
-//
-//
-//            dd($input);
-//            return redirect()->route('user.index')->with('success', 'User create successfully!');
         }
     }
 
@@ -192,8 +175,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         try {
             $user = User::find($id);
@@ -205,5 +187,12 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
         }
+    }
+
+    public function deleteAjax(Request $request)
+    {
+        return response()->json([
+            'status' => User::destroy($request->id)
+        ]);
     }
 }

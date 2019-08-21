@@ -46,14 +46,11 @@
                                         href="{{ route('customer.edit',['id'=>$customer->id]) }}"><i
                                             class="fa fa-edit"></i></a>
                                 </button>
-                                <form method="POST" action="{{ route('customer.destroy', [$customer->id]) }}">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <button class="btn btn-danger" type="submit" title="Delete"
-                                            onclick="return confirm('Bạn có chắc chắng muốn xóa {{ $customer->name }} ?')">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-danger"><a class="delete-customer"
+                                                                  customer-id="{{ $customer->id }}"
+                                                                  onclick="return confirm('Xác nhận xóa?')"
+                                                                  href="#"><i
+                                            class="fa fa-trash-o"></i></a></button>
                             </td>
                         </tr>
                     @endforeach
@@ -64,4 +61,26 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $(function () {
+            $('.delete-customer').click(function () {
+                var customerId = $(this).attr('customer-id');
+                $(this).parent().parent().parent().remove();
+                $.ajax({
+                    url: '/admin/customer/delete',
+                    type: 'POST',
+                    data: {id: customerId},
+                    success: function (res) {
+
+                    },
+                    error: function (err) {
+
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

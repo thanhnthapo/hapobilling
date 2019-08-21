@@ -32,16 +32,11 @@
                                 <form action="{{ route('department.edit',['id'=>$department->id]) }}">
                                     <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
                                 </form>
-                                {!! Form::open([
-                                    'type' => 'hidden',
-                                    'method'=>'post',
-                                    'route'=>['customer.destroy', $department->id]]) !!}
-                                {!! Form::hidden('_method','delete') !!}
-                                {!! csrf_field()!!}
-                                <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Xác nhận xóa?')"><i class="fa fa-trash-o"></i>
-                                </button>
-                                {!! Form::close() !!}
+                                <button class="btn btn-danger"><a class="delete-department"
+                                                                  department-id="{{ $department->id }}"
+                                                                  onclick="return confirm('Xác nhận xóa?')"
+                                                                  href="#"><i
+                                            class="fa fa-trash-o"></i></a></button>
                             </td>
                         </tr>
                     @endforeach
@@ -52,4 +47,26 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $(function () {
+            $('.delete-department').click(function () {
+                var departmentId = $(this).attr('department-id');
+                $(this).parent().parent().parent().remove();
+                $.ajax({
+                    url: '/admin/department/delete',
+                    type: 'POST',
+                    data: {id: departmentId},
+                    success: function (res) {
+
+                    },
+                    error: function (err) {
+
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

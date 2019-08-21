@@ -105,4 +105,11 @@ class CustomerController extends Controller
         $customer->delete();
         return redirect()->route('customer.index')->with('success', 'Customer deleted successfully!');
     }
+
+    public function deleteAjax(Request $request)
+    {
+        return response()->json([
+            'status' => Customer::destroy($request->id)
+        ]);
+    }
 }
