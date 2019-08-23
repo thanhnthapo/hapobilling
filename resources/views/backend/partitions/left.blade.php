@@ -4,7 +4,7 @@
                 Dashboard</a>
         </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-calendar"></i>&nbsp;
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-user"></i>&nbsp;
                 Manager User <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a href="{{ route('user.index') }}"><i class="fa fa-eye"></i>&nbsp; List User</a></li>
@@ -24,6 +24,8 @@
         </li>
         <li class=""><a href="{{ route('customer.index') }}"><i class="fa fa-users"></i>&nbsp; Manager Customer</a></li>
         <li class=""><a href="{{ route('department.index') }}"><i class="fa fa-folder"></i>&nbsp; Manager Department</a>
+        </li>
+        <li class=""><a href="{{ route('task.index') }}"><i class="fa fa-bookmark"></i>&nbsp; Task</a>
         </li>
 
         </li>

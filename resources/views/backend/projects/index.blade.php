@@ -21,37 +21,44 @@
                         <button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
-                    <button id="Mybtn" class="btn btn-primary"><i class="fa fa-plus"></i> Assign</button>
-                    <form id="MyForm" action="{{ route('assign.store') }}" method="post" class="form-horizontal">
-                        @csrf
-                        <label>User Name</label>
-                        <select name="user_id" id="user_id">
-                            <option value="">Vui lòng chọn</option>
-                            @foreach ($users as $user)
-                                <option
-                                    value="{{ $user->id }}" {{ ($user->id ==  old('user_id')) ? 'selected' : '' }}>
-                                    {{($user->id==$user->user_id)?"-":"" }}  {{$user->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="text-danger">{{ $errors->first('user_id')}}</span>
-                        <label>Project Name</label>
-                        <select name="project_id" id="project_id">
-                            <option value="">Vui lòng chọn</option>
-                            @foreach ($projects as $project)
-                                <option
-                                    value="{{ $project->id }}" {{ ($project->id ==  old('project_id')) ? 'selected' : '' }}>
-                                    {{($project->id==$project->project_id)?"-":"" }}  {{$project->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="text-danger">{{ $errors->first('user_id')}}</span>
-                        <label>Start_Date</label>
-                        <input type="date" name="start_date"/>
-                        <label>Finish_Date</label>
-                        <input type="date" name="finish_date"/>
-                        <button type="submit" class="btn btn-success">Confirm</button>
-                    </form>
+                <button id="Mybtn" class="btn btn-primary"><i class="fa fa-plus"></i> Assign</button>
+                <form id="MyForm" action="{{ route('assign.store') }}" method="post" class="form-horizontal">
+                    @csrf
+                    <label>User Name</label>
+                    <select name="user_id" id="user_id" class="input-sm">
+                        <option selected disabled>-- Select a User --</option>
+                        @foreach ($users as $user)
+                            <option
+                                value="{{ $user->id }}" {{ ($user->id ==  old('user_id')) ? 'selected' : '' }}>
+                                {{($user->id==$user->user_id)?"-":"" }}  {{$user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger">{{ $errors->first('user_id')}}</span>
+                    <label>Project Name</label>
+                    <select name="project_id" id="project_id" class="input-sm">
+                        <option>-- Select a Project --</option>
+                        @foreach ($projects as $project)
+                            <option
+                                value="{{ $project->id }}" {{ ($project->id ==  old('project_id')) ? 'selected' : '' }}>
+                                {{($project->id==$project->project_id)?"-":"" }}  {{$project->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <label>Tasks</label>
+                    <select name="task_id" id="task_id" class="input-sm">
+                        <option>-- Select a Project --</option>
+                    </select>
+                    <span class="text-danger">{{ $errors->first('user_id')}}</span>
+
+                    <label>Start_Date</label>
+                    <input type="date" name="start_date" class="input-sm"/>
+                    <label>Finish_Date</label>
+                    <input type="date" name="finish_date" class="input-sm"/>
+                    <button type="submit" class="btn btn-success">Confirm</button>
+                </form>
+                {{--                    <button id="Mybtn" class="btn btn-primary"><i class="fa fa-plus"></i> Assign</button>--}}
                 <table class="table table-responsive table-bordered tablesorter table-hover text-center">
                     <thead>
                     <tr class="table-tr-header">
@@ -81,27 +88,20 @@
                                 @foreach($users as $user)
                                     @foreach($assigns as $assign)
                                         @if($user->id == $assign->user_id && $project->id == $assign->project_id)
-                                            {{ $user->name }} <span>,</span>
+                                            <button class="btn btn-outline-light text-dark">
+                                                {{ $user->name }}
+                                                <a class="delete-assign"
+                                                   assign-id="{{ $assign->id }}"
+                                                   onclick="return confirm('Xóa {{ $user->name }} khỏi project {{ $project->name }}?')"
+                                                   href="#"><i class="fa fa-times-circle"></i></a>
+                                            </button>
                                         @endif
                                     @endforeach
                                 @endforeach
                             </td>
                             <td class="action">
-                                <button class="btn btn-warning" id="btnEdit"><i class="fa fa-edit"></i>
-                                    <div id="dialog" class="form-edit">
-                                        <form action="">
-                                            <lable>UserName</lable>
-                                            <input type="text">
-                                            <lable>UserName</lable>
-                                            <input type="text">
-                                            <lable>UserName</lable>
-                                            <input type="text"> <lable>UserName</lable>
-                                            <input type="text">
-                                        </form>
-                                    </div>
-{{--                                    <a--}}
-{{--                                        href="{{  route('project.edit', ['id' => $project->id])}}"><i--}}
-{{--                                            class="fa fa-edit"></i></a>--}}
+                                <button class="btn btn-warning" id="btnEdit"><a
+                                        href="{{ route('project.edit', $project->id) }}"><i class="fa fa-edit"></i></a>
                                 </button>
                                 <button class="btn btn-danger"><a class="delete-project"
                                                                   project-id="{{ $project->id }}"
@@ -123,21 +123,9 @@
 
 @section('js')
     <script>
-        $(document).ready(function(){
-            $('#Mybtn').click(function(){
-                $('#MyForm').toggle(500);
-            });
-        });
         $(function () {
-            $("#dialog").dialog({
-                modal: true,
-                autoOpen: false,
-                title: "Chỉnh Sửa Project",
-                width: 600,
-                height: 500
-            });
-            $("#btnEdit").click(function () {
-                $('#dialog').dialog('open');
+            $('#Mybtn').click(function () {
+                $('#MyForm').toggle(500);
             });
 
             $('.delete-project').click(function () {
@@ -154,8 +142,35 @@
 
                     }
                 })
+            })
+
+            $('#project_id').on('change', function (e) {
+                var project_id = e.target.value;
+
+                $.post('/admin/project/ajax-task?project_id=' + project_id, function (data) {
+                    $('#task_id').empty();
+                    $.each(data, function(index, tasks) {
+                        $('#task_id').append('<option value="'+tasks.id+'">' +tasks.content+ '</option>')
+                    })
                 })
             })
+
+            $('.delete-assign').click(function () {
+                var assignId = $(this).attr('assign-id');
+                $(this).parent().parent().parent().remove();
+                $.ajax({
+                    url: '/admin/assign/delete',
+                    type: 'POST',
+                    data: {id: assignId},
+                    success: function (res) {
+
+                    },
+                    error: function (err) {
+
+                    }
+                })
+            })
+        })
     </script>
 @endsection
 

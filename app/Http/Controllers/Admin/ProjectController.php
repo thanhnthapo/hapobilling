@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Assign;
 use App\Models\Project;
 use App\Models\Customer;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Illuminate\Support\Facades\Input;
 
 
 class ProjectController extends Controller
@@ -25,11 +27,13 @@ class ProjectController extends Controller
         $projects = Project::paginate(config('app.paginate'));
         $users = User::select('id', 'name')->get();
         $assigns = Assign::get();
+        $tasks = Task::get();
         $param = [
             'projects' => $projects,
             'customers' => $customers,
             'assigns' => $assigns,
             'users' => $users,
+            'tasks' => $tasks,
         ];
 
         return view('backend.projects.index', $param);
@@ -127,5 +131,13 @@ class ProjectController extends Controller
         return response()->json([
             'status' => Project::destroy($request->id)
         ]);
+    }
+
+    public function AjaxTask()
+    {
+        $projects = Input::get('project_id');
+        $tasks = Task::where('project_id', $projects)->get();
+
+        return response()->json( $tasks);
     }
 }

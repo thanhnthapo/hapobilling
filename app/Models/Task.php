@@ -16,14 +16,6 @@ class Task extends Model
         'project_id',
         'user_id',
     ];
-    use SoftDeletes;
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
 
     public function user()
     {
