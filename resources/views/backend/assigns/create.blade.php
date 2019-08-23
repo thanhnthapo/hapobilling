@@ -19,7 +19,7 @@
                             </option>
                         @endforeach
                     </select>
-                    <p
+                    <p class="text-danger">{{ $errors->first('user_id')}}</p>
                 <div class="form-group col-sm-8">
                     <label>Project Name<span class="text-danger"> *</span></label>
                     <select name="project_id" id="project_id" class="form-control">

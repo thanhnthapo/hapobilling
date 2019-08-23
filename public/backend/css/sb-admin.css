@@ -23,7 +23,7 @@ a {
 }
 
 label {
-    width: 100px;
+    width: 200px;
     margin: 10px 10px;
     font-size: 14px;
 }
@@ -253,7 +253,55 @@ button:hover, a:hover {
 .user-profile img {
     width: 30px;
 }
+
 .action {
     display: flex;
     justify-content: center;
+}
+
+.action button {
+    width: 35px;
+    height: 35px;
+    text-align: center;
+}
+
+.item {
+    margin: 50px auto;
+    width: 20%;
+}
+
+.messenger {
+    margin-top: 50px;
+}
+
+#MyForm label {
+    width: 90px;
+}
+
+#MyForm {
+    display: none;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 30px 10px;
+    background: #ececec;
+    margin-top: 20px;
+}
+
+#Mybtn {
+    margin-bottom: 20px;
+}
+
+.table-tr-header {
+    background-color: rgba(47, 128, 237, 0.3);
+    border-color: rgba(47, 178, 237, 0.3);;
+}
+
+table-responsive th {
+    white-space: nowrap;
+}
+table-responsive th i{
+    position: relative;
+}
+.form-edit {
+    display: none;
 }
