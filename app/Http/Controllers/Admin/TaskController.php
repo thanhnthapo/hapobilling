@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CreateTaskRequest;
 use App\Models\Assign;
 use App\Models\Project;
 use App\Models\Task;
@@ -19,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::orderBy('project_id', 'ASC')->get();;
         $assigns = Assign::all();
         $users = User::select('id', 'name')->get();
         $projects = Project::all();
@@ -39,7 +40,11 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $projects = Project::all();
+        $param = [
+            'projects' => $projects
+        ];
+        return view('backend.tasks.create', $param);
     }
 
     /**
@@ -48,9 +53,11 @@ class TaskController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-        //
+//        dd($request);
+        Task::create($request->all());
+        return redirect()->route('task.index')->with('success', 'Create Task Successfully!!!');
     }
 
     /**
@@ -72,7 +79,13 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $project = Project::get();
+        $task = Task::findOrFail($id);
+        $param = [
+            'project' => $project,
+            'task' => $task,
+        ];
+        return view('backend.tasks.edit', $param);
     }
 
     /**
@@ -84,7 +97,10 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->update($request->all());
+        $task->save();
+        return redirect()->route('task.index')->with('success', 'Update data Task successfully!!!');
     }
 
     /**
@@ -101,22 +117,28 @@ class TaskController extends Controller
     public function DeleteUserAjax(Request $request)
     {
         $task = Task::where('user_id', $request->id)->first();
-//        $task->update(['user_id' => null]);
-        $projects = Project::get();
-        foreach ($projects as $project) {
-            dd($project);
-            $item = $project->name;
-            dd($item);
-        }
-        $projects->each(function ($project) {
-            $projectId = $project->name;
-            dd($projectId);
-        });
+        $task->update(['user_id' => null]);
+        $project = $task->project()->first();
         $assign = Assign::where('user_id', $request->id)->where('project_id', $project->id)->first();
-        dd($assign);
         $assign->update(['user_id' => null]);
         return response()->json([
             'success' => true,
         ]);
     }
+
+    public function deleteAjax(Request $request)
+    {
+        $task = Task::find($request->id);
+        $user = $task->user()->first();
+        if (empty(Assign::where('user_id', $user->id)->first())) {
+            $assign = Assign::where('user_id', $user->id)->first();
+            $assign->update(['user_id' => null]);
+        }
+        $task->delete();
+        return response()->json(array(
+            'success' => true,
+            'message' => 'The task deleted succesfuly!!'
+        ));
+    }
 }
+

@@ -138,7 +138,6 @@ class ProjectController extends Controller
     {
         $projects = Input::get('project_id');
         $tasks = Task::where('project_id', $projects)->get();
-
         return response()->json( $tasks);
     }
 }

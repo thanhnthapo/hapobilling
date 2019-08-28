@@ -17,9 +17,10 @@ $(function () {
 
     $('.delete-task').click(function () {
         var id = $(this).attr('task-id');
+        console.log(id);
         $(this).parent().parent().parent().remove();
         $.ajax({
-            url: '/admin/assign/delete',
+            url: '/admin/task/delete',
             type: 'POST',
             data: {id: id},
             success: function (res) {
@@ -77,10 +78,10 @@ $(function () {
 
     $('#project_id').on('change', function (e) {
         var project_id = e.target.value;
-        $.post('/admin/project/ajax-task?project_id=' + project_id, function (data) {
+        $.post('/admin/project/ajax-task?project_id=' +project_id, function (data) {
             $('#task_id').empty();
             $.each(data, function (index, tasks) {
-                $('#task_id').append('<option value="' + tasks.id + '">' + tasks.content + '</option>')
+                $('#task_id').append(`<option value="` +tasks.id+ `">` + tasks.content + `</option>`)
             })
         })
     });

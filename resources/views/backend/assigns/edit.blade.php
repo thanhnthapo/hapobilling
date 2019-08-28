@@ -15,7 +15,7 @@
 {{--                    <p class="text-danger">{{ $errors->first('name')}}</p>--}}
 {{--                </div>--}}
                 <div class="form-group col-sm-8">
-                    <label>Customer<span class="text-danger">*</span></label>
+                    <label>Task Name<span class="text-danger">*</span></label>
                     <select name="customer_id" id="customer_id" class="form-control">
                         @foreach ($tasks as $task)
                             <option  value="{{ $task->id }}" {{ ($task->proejct_id == $project->id)  ? 'selected' : '' }}>
@@ -36,7 +36,7 @@
                     <p class="text-danger">{{ $errors->first('finish_date')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>Customer<span class="text-danger">*</span></label>
+                    <label>Employee<span class="text-danger">*</span></label>
                     <select name="user_id" id="user_id" class="form-control">
                         @foreach ($users as $user)
                             <option  value="{{ $user->id }}" {{( $user->id == $assign->user_id ) ? 'selected' : '' }}>

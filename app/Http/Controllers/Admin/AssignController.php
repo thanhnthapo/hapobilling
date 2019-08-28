@@ -47,7 +47,7 @@ class AssignController extends Controller
      */
     public function store(CreateAssignRequest $request)
     {
-        $task = Task::findOrFail($request->task_id);
+        $task = Task::find($request->task_id);
         $user = User::findOrFail($request->user_id);
         $user->tasks()->save($task);
         $assign = $request->all();
