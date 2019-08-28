@@ -88,13 +88,16 @@
                                 @foreach($users as $user)
                                     @foreach($assigns as $assign)
                                         @if($user->id == $assign->user_id && $project->id == $assign->project_id)
-                                            <button class="btn btn-outline-light text-dark">
-                                                {{ $user->name }}
-                                                <a class="delete-assign"
-                                                   assign-id="{{ $assign->id }}"
-                                                   onclick="return confirm('Xóa {{ $user->name }} khỏi project {{ $project->name }}?')"
-                                                   href="#"><i class="fa fa-times-circle"></i></a>
-                                            </button>
+                                                <button type="submit" class="btn btn-outline-light text-dark" onclick="window.location.href='{{ route('assign.show', $assign->id) }}'">
+                                                    {{ $user->name }}
+{{--                                                    <a--}}
+{{--                                                        class="delete-assign"--}}
+{{--                                                        assign-id="{{ $assign->id }}"--}}
+{{--                                                        href="#"><i--}}
+{{--                                                            class="fa fa-times-circle"></i></a>--}}
+
+                                                </button>
+                                                <a href="{{ route('assign.edit', $assign->id) }}"><i class="fa fa-edit"></i></a>
                                         @endif
                                     @endforeach
                                 @endforeach
@@ -105,7 +108,7 @@
                                 </button>
                                 <button class="btn btn-danger"><a class="delete-project"
                                                                   project-id="{{ $project->id }}"
-                                                                  onclick="return confirm('Xác nhận xóa?')"
+                                                                  onclick="return "
                                                                   href="#"><i
                                             class="fa fa-trash-o"></i></a></button>
                             </td>
@@ -118,59 +121,5 @@
             </div>
         </div>
     </div>
-    </div>
-@endsection
-
-@section('js')
-    <script>
-        $(function () {
-            $('#Mybtn').click(function () {
-                $('#MyForm').toggle(500);
-            });
-
-            $('.delete-project').click(function () {
-                var projectId = $(this).attr('project-id');
-                $(this).parent().parent().parent().remove();
-                $.ajax({
-                    url: '/admin/project/delete',
-                    type: 'POST',
-                    data: {id: projectId},
-                    success: function (res) {
-
-                    },
-                    error: function (err) {
-
-                    }
-                })
-            })
-
-            $('#project_id').on('change', function (e) {
-                var project_id = e.target.value;
-
-                $.post('/admin/project/ajax-task?project_id=' + project_id, function (data) {
-                    $('#task_id').empty();
-                    $.each(data, function(index, tasks) {
-                        $('#task_id').append('<option value="'+tasks.id+'">' +tasks.content+ '</option>')
-                    })
-                })
-            })
-
-            $('.delete-assign').click(function () {
-                var assignId = $(this).attr('assign-id');
-                $(this).parent().parent().parent().remove();
-                $.ajax({
-                    url: '/admin/assign/delete',
-                    type: 'POST',
-                    data: {id: assignId},
-                    success: function (res) {
-
-                    },
-                    error: function (err) {
-
-                    }
-                })
-            })
-        })
-    </script>
 @endsection
 

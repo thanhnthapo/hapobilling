@@ -123,6 +123,7 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $project->delete();
+        $project->taks()->detach();
         return redirect()->route('project.index')->with('success', 'Project deleted successfully!');
     }
 

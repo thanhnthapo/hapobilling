@@ -18,7 +18,7 @@
     <!-- Page Specific CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 {{--    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">--}}
-{{--</head>--}}
+</head>
 
 <body>
 
@@ -52,6 +52,7 @@
 {{--<script src="{{ asset('backend/js/flot/jquery.flot.pie.js') }}"></script>--}}
 {{--<script src="{{ asset('backend/js/flot/chart-data-flot.js') }}"></script>--}}
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>--}}
+<script type="text/javascript" src="{{ asset('backend/js/hapobilling.js') }}"></script>
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {
@@ -59,6 +60,5 @@
         }
     });
 </script>
-@yield('js')
 </body>
 </html>

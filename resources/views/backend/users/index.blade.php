@@ -62,14 +62,6 @@
                                                               onclick="return confirm('Xác nhận xóa?')"
                                                               href="#"><i
                                         class="fa fa-trash-o"></i></a></button>
-                            {{--                            <form method="POST" action="{{ route('user.destroy', [$user->id]) }}">--}}
-                            {{--                                {{ csrf_field() }}--}}
-                            {{--                                {{ method_field('DELETE') }}--}}
-                            {{--                                <button class="btn btn-danger" type="submit" title="Delete"--}}
-                            {{--                                        onclick="return confirm('Bạn có chắc chắng muốn xóa {{ $user->name }} ?')">--}}
-                            {{--                                    <i class="fa fa-trash-o"></i>--}}
-                            {{--                                </button>--}}
-                            {{--                            </form>--}}
                         </td>
                     </tr>
                 @endforeach
@@ -79,26 +71,4 @@
             {{ $users->links() }}
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script>
-        $(function () {
-            $('.delete-user').click(function () {
-                var userId = $(this).attr('user-id');
-                $(this).parent().parent().parent().remove();
-                $.ajax({
-                    url: '/admin/user/delete',
-                    type: 'POST',
-                    data: {id: userId},
-                    success: function (res) {
-
-                    },
-                    error: function (err) {
-
-                    }
-                })
-            })
-        })
-    </script>
 @endsection

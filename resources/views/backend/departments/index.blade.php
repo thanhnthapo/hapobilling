@@ -21,12 +21,14 @@
                 <table class="table table-responsive table-bordered tablesorter table-hover text-center">
                     <thead>
                     <tr>
+                        <th>.No</th>
                         <th>Name <i class="fa fa-sort"></i></th>
                         <th>Action</th>
                     </tr>
                     <tbody>
-                    @foreach($departments as $department)
+                    @foreach($departments as $key => $department)
                         <tr>
+                            <td>{{ $key+1 }}</td>
                             <td><strong>{{ $department->name }}</strong></td>
                             <td class="action">
                                 <form action="{{ route('department.edit',['id'=>$department->id]) }}">
@@ -34,7 +36,6 @@
                                 </form>
                                 <button class="btn btn-danger"><a class="delete-department"
                                                                   department-id="{{ $department->id }}"
-                                                                  onclick="return confirm('Xác nhận xóa?')"
                                                                   href="#"><i
                                             class="fa fa-trash-o"></i></a></button>
                             </td>
@@ -47,26 +48,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script>
-        $(function () {
-            $('.delete-department').click(function () {
-                var departmentId = $(this).attr('department-id');
-                $(this).parent().parent().parent().remove();
-                $.ajax({
-                    url: '/admin/department/delete',
-                    type: 'POST',
-                    data: {id: departmentId},
-                    success: function (res) {
-
-                    },
-                    error: function (err) {
-
-                    }
-                })
-            })
-        })
-    </script>
 @endsection

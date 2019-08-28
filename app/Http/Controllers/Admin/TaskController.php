@@ -8,6 +8,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -95,5 +96,27 @@ class TaskController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function DeleteUserAjax(Request $request)
+    {
+        $task = Task::where('user_id', $request->id)->first();
+//        $task->update(['user_id' => null]);
+        $projects = Project::get();
+        foreach ($projects as $project) {
+            dd($project);
+            $item = $project->name;
+            dd($item);
+        }
+        $projects->each(function ($project) {
+            $projectId = $project->name;
+            dd($projectId);
+        });
+        $assign = Assign::where('user_id', $request->id)->where('project_id', $project->id)->first();
+        dd($assign);
+        $assign->update(['user_id' => null]);
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
