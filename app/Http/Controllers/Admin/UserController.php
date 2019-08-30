@@ -23,31 +23,53 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->paginate(config('app.paginate'));
+        $search = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'department_id' => $request->department_id,
+        ];
+        $users = User::with('roles')->search($search)->paginate(config('app.paginate'));
         $departments = Department::all();
         $param = [
             'users' => $users,
             'departments' => $departments,
+            'search' => $search,
         ];
+//        $departmentId = $request->department_id;
+//        $name = $request->name;
+//        $email = $request->email;
+//        $whereClause = [
+//            ['name', 'like', "%$name%"],
+//            ['email', 'like', "%$email%"]
+//        ];
+//        $data = [
+//            'departments' => $departments,
+//            'users' => $users,
+//        ];
+//        if ($departmentId !== -1) {
+//            $whereClause[] = ['department_id', $departmentId];
+//        }
+//        if ($request->has(['department_id', 'name', 'email'])) {
+//            $data['users'] = User::where($whereClause)->paginate(config('app.paginate'));
+//            $data['department_id'] = $departmentId;
+//            $data['name'] = $name;
+//            $data['email'] = $email;
+//            return view('backend.users.search', $data);
+//        } else {
         return view('backend.users.index', $param);
     }
 
-//    function fetch_data(Request $request)
-//    {
-//        if ($request->ajax()) {
-//            $users = User::paginate(config('app.paginate'));
-//            return view('backend.user.pagination', compact('users'))->render();
-//        }
-//    }
+//}
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public
+    function create()
     {
         $roles = Role::all();
         $departments = Department::all();
@@ -64,7 +86,8 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateUserRequest $request)
+    public
+    function store(CreateUserRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -93,7 +116,8 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         $user = User::findOrFail($id);
         $param = [
@@ -108,7 +132,8 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         $user = User::with('roles')->findOrFail($id);
         $roles = Role::all();
@@ -130,7 +155,8 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public
+    function update(UpdateUserRequest $request, $id)
     {
         try {
             DB::beginTransaction();
@@ -153,19 +179,6 @@ class UserController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('user.index')->with(['error', 'Vui lòng kiểm tra lại']);
-
-//
-//        $input = $request->except('avatar');
-//        $request['password'] = Hash::make($request->password);
-//        if ($request->hasFile('avatar')) {
-//            Storage::disk('public')->delete('/' . $user->avatar);
-//            $storagePath = $request->avatar->store('avatar', ['disk' => 'public']);
-//            $input['avatar'] = $storagePath;
-//        } else {
-//            $input['avatar'] = config('app.avatar_icon');
-//        }
-//        $user->update($input);
-//        return redirect()->route('user.index')->with('success', 'User updated successfully!');
         }
     }
 
@@ -175,7 +188,8 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         try {
             $user = User::find($id);
@@ -189,10 +203,4 @@ class UserController extends Controller
         }
     }
 
-    public function deleteAjax(Request $request)
-    {
-        return response()->json([
-            'status' => User::destroy($request->id)
-        ]);
-    }
 }

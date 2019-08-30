@@ -1,23 +1,24 @@
 $(function () {
     $('.delete-user').click(function () {
-        var userId = $(this).attr('user-id');
-        $(this).parent().parent().parent().remove();
-        $.ajax({
-            url: '/admin/user/delete',
-            type: 'POST',
-            data: {id: userId},
-            success: function (res) {
+        if (confirm(`Xác nhận xóa User?`)) {
+            var userId = $(this).attr('user-id');
+            $(this).parent().parent().parent().remove();
+            $.ajax({
+                url: '/admin/user/delete',
+                type: 'POST',
+                data: {id: userId},
+                success: function (res) {
 
-            },
-            error: function (err) {
+                },
+                error: function (err) {
 
-            }
-        })
+                }
+            })
+        }
     });
 
     $('.delete-task').click(function () {
         var id = $(this).attr('task-id');
-        console.log(id);
         $(this).parent().parent().parent().remove();
         $.ajax({
             url: '/admin/task/delete',
@@ -78,10 +79,10 @@ $(function () {
 
     $('#project_id').on('change', function (e) {
         var project_id = e.target.value;
-        $.post('/admin/project/ajax-task?project_id=' +project_id, function (data) {
+        $.post('/admin/project/ajax-task?project_id=' + project_id, function (data) {
             $('#task_id').empty();
             $.each(data, function (index, tasks) {
-                $('#task_id').append(`<option value="` +tasks.id+ `">` + tasks.content + `</option>`)
+                $('#task_id').append(`<option value="` + tasks.id + `">` + tasks.content + `</option>`)
             })
         })
     });
@@ -123,5 +124,12 @@ $(function () {
             })
         }
     });
+
+    $("#search-department").select2({
+        placeholder: "---Select a department---",
+        allowClear: true,
+        tags: true,
+        tokenSeparators: [',', ' ']
+    })
 
 });
