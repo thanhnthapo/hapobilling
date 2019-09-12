@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Assign;
 use App\Models\Project;
 use App\Models\Task;
@@ -10,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class TaskController extends Controller
 {
@@ -20,10 +22,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::orderBy('project_id', 'ASC')->get();;
+        $tasks = Task::with('project')->orderBy('project_id', 'ASC')->paginate(config('app.paginate'));
         $assigns = Assign::all();
         $users = User::select('id', 'name')->get();
-        $projects = Project::all();
+        $projects = Project::get();
         $param = [
             'tasks' => $tasks,
             'users' => $users,
@@ -42,7 +44,7 @@ class TaskController extends Controller
     {
         $projects = Project::all();
         $param = [
-            'projects' => $projects
+            'projects' => $projects,
         ];
         return view('backend.tasks.create', $param);
     }
@@ -55,9 +57,29 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-//        dd($request);
-        Task::create($request->all());
-        return redirect()->route('task.index')->with('success', 'Create Task Successfully!!!');
+        $dateTask = $this->createArrayDate($request->start_date, $request->finish_date);
+        $project = Project::where('id', $request->project_id)->first();
+        $dateProject = $this->createArrayDate($project->start_date, $project->finish_date);
+        $dateCreate = array_diff($dateTask, $dateProject);
+        dd($dateCreate);
+        if ($dateCreate) {
+            return redirect()->route('task.create')->with('error', 'Kiểm tra lại Start_date hoặc Finish_date');
+
+        } else {
+            Task::create($request->all());
+            return redirect()->route('task.index')->with('success', 'Create Task Successfully!!!');
+        }
+    }
+
+    public function createArrayDate($fromDate, $toDate)
+    {
+        $arrDate = [];
+        $fromDate = new DateTime($fromDate);
+        $toDate = new DateTime($toDate);
+        for ($i = $fromDate; $i <= $toDate; $i->modify('+1 day')) {
+            $arrDate[] = $i->format("Y-m-d");
+        }
+        return $arrDate;
     }
 
     /**
@@ -95,7 +117,7 @@ class TaskController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
         $task = Task::findOrFail($id);
         $task->update($request->all());
@@ -129,16 +151,20 @@ class TaskController extends Controller
     public function deleteAjax(Request $request)
     {
         $task = Task::find($request->id);
-        $user = $task->user()->first();
-        if (empty(Assign::where('user_id', $user->id)->first())) {
-            $assign = Assign::where('user_id', $user->id)->first();
+        $user = $task->user()->count();
+        if ($user == 0) {
+            $task->delete();
+            $task->reports()->detach();
+        } else {
+            $task->delete();
+            $assign = DB::table('assigns')->where('user_id', $user->id)->first();
             $assign->update(['user_id' => null]);
+            return response()->json(array(
+                'success' => true,
+                'count' => $assign,
+                'message' => 'The task deleted successfully!!'
+            ));
         }
-        $task->delete();
-        return response()->json(array(
-            'success' => true,
-            'message' => 'The task deleted succesfuly!!'
-        ));
     }
 }
 

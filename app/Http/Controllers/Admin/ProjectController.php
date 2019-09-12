@@ -21,22 +21,50 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $customers = Customer::get();
         $projects = Project::paginate(config('app.paginate'));
         $users = User::select('id', 'name')->get();
         $assigns = Assign::get();
         $tasks = Task::get();
-        $param = [
-            'projects' => $projects,
-            'customers' => $customers,
-            'assigns' => $assigns,
-            'users' => $users,
-            'tasks' => $tasks,
-        ];
 
-        return view('backend.projects.index', $param);
+        $name = $request->name;
+        $customer_id = $request->customer_id;
+
+        if ($request->has(['name', 'customer_id'])) {
+            $search = [
+                'name' => $name,
+//                'start_date' => $start_date,
+//                'finish_date' => $finish_date
+            ];
+            if ($customer_id !== -1) {
+                $search['customer_id'] = $customer_id;
+            }
+            $customer_selected = collect($customer_id);
+            $projects = Project::with('tasks')->searchProject($search)->paginate(config('app.paginate'));
+            $data = [
+                'projects' => $projects,
+                'customers' => $customers,
+                'assigns' => $assigns,
+                'users' => $users,
+                'tasks' => $tasks,
+                'search' => $search,
+                'customer_selected' => $customer_selected,
+            ];
+            return view('backend.projects.search', $data);
+        } else {
+
+            $data = [
+                'projects' => $projects,
+                'customers' => $customers,
+                'assigns' => $assigns,
+                'users' => $users,
+                'tasks' => $tasks,
+            ];
+
+            return view('backend.projects.index', $data);
+        }
     }
 
     /**
@@ -47,10 +75,10 @@ class ProjectController extends Controller
     public function create()
     {
         $customer = Customer::select('id', 'name')->get();
-        $param = [
+        $data = [
             'customer' => $customer,
         ];
-        return view('backend.projects.create', $param);
+        return view('backend.projects.create', $data);
     }
 
     /**
@@ -86,11 +114,11 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $customer = Customer::get();
-        $param = [
+        $data = [
             'project' => $project,
             'customer' => $customer,
         ];
-        return view('backend.projects.edit', $param);
+        return view('backend.projects.edit', $data);
     }
 
     /**
@@ -121,16 +149,18 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $project = Project::find($id);
-        $project->delete();
-        $project->taks()->detach();
-        return redirect()->route('project.index')->with('success', 'Project deleted successfully!');
+
     }
 
     public function deleteAjax(Request $request)
     {
+        $project = Project::find($request->id);
+        $project->delete();
+        $project->tasks()->delete();
+        $project->assigns()->delete();
         return response()->json([
-            'status' => Project::destroy($request->id)
+            'success' => true,
+            'message' => 'The task deleted successfully!!'
         ]);
     }
 
@@ -138,6 +168,6 @@ class ProjectController extends Controller
     {
         $projects = Input::get('project_id');
         $tasks = Task::where('project_id', $projects)->get();
-        return response()->json( $tasks);
+        return response()->json($tasks);
     }
 }

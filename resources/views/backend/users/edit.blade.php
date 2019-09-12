@@ -8,7 +8,7 @@
             <form class="form-horizontal" method="POST" action="{{ route('user.update',['id' => $user->id]) }}"
                   enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="_method" value="PUT">
+{{--                <input type="hidden" name="_method" value="PUT">--}}
                 <div class="form-group col-sm-8">
                     <label>Name<span class="text-danger">*</span></label>
                     <input class="form-control" name="name" value="{{ old('name', $user->name) }}">
@@ -55,11 +55,6 @@
                     <p class="text-danger">{{ $errors->first('department_id')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>Status<span class="text-danger">*</span></label>
-                    <input class="form-control" placeholder="" name="status" value="{{ old('status', $user->status) }}">
-                    <p class="text-danger">{{ $errors->first('status')}}</p>
-                </div>
-                <div class="form-group col-sm-8">
                     <label>Birthday<span class="text-danger">*</span></label>
                     <input type="date" class="form-control" name="dob" value="{{ old('dob', $user->dob)  }}">
                     <p class="text-danger">{{ $errors->first('dob')}}</p>
@@ -69,6 +64,23 @@
                     <input class="form-control" type="password" name="password"
                            value="{{ old('password', $user->password)  }}">
                     <p class="text-danger">{{ $errors->first('password')}}</p>
+                </div>
+                <div class="form-group col-sm-8">
+                    <label for="status">Status<span class="text-danger"> *</span></label>
+                    <label class="radio-custom">Active
+                        <input type="radio" name="status"
+                               value="{{ config('app.active') }}" {{ ($user ->status == config('app.active')) ? "checked" : ""}}>
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <label class="radio-custom">Block
+                        <input type="radio" name="status"
+                               value="{{ config('app.block') }}" {{ ( $user->status == config('app.block')) ? "checked": ""}}>
+                        <span class="checkmark"></span>
+                    </label>
+                    @if($errors->has('status'))
+                        <span class="text-danger">{{$errors->first('status')}}</span>
+                    @endif
                 </div>
                 <div class="form-group col-sm-8">
                     <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Lưu Lại</button>

@@ -29,7 +29,7 @@
                                     </tr>
                                     <tr>
                                         <th width="20%">Tên dự án</th>
-                                        <td width="80%">{{ $project->name }}</td>
+                                        <td width="80%">{{ $assign->name }}</td>
                                     </tr>
                                     <tr>
                                         <th width="20%">Task</th>

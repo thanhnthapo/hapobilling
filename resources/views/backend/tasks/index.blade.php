@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 <div class="content-header text-center">
-    <h2>Manager Tasks</h2>
+    <h2>Danh sách công việc </h2>
 </div>
 @section('content')
     <div class="container">
@@ -68,7 +68,6 @@
                                 </button>
                                 <button class="btn btn-danger"><a class="delete-task"
                                                                   task-id="{{ $task->id }}"
-                                                                  onclick="return confirm('Xác nhận xóa?')"
                                                                   href="#"><i
                                             class="fa fa-trash-o"></i></a></button>
                             </td>

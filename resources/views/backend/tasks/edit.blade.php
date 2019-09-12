@@ -19,7 +19,7 @@
                     <select name="project_id" id="project_id" class="form-control">
                         @foreach ($project as $project_item)
                             <option
-                                value="{{ $project_item->id }}" {{ ($task->proejct_id == $project_item->id)  ? 'selected' : '' }}>
+                                value="{{ $project_item->id }}" {{ ($project_item->id == $task->project_id)  ? 'selected' : '' }}>
                                 {{$project_item->name }}
                             </option>
                         @endforeach

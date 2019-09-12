@@ -23,24 +23,42 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->paginate(config('app.paginate'));
         $departments = Department::all();
-        $param = [
-            'users' => $users,
-            'departments' => $departments,
-        ];
-        return view('backend.users.index', $param);
+        $department_id = $request->department_id;
+        $name = $request->name;
+        $email = $request->email;
+
+        if ($request->has(['department_id', 'name', 'email'])) {
+            $search = [
+                'name' => $name,
+                'email' => $email,
+            ];
+            if ($department_id !== -1) {
+                $search['department_id'] = $department_id;
+            }
+            $department_select = collect($department_id);
+            $users = User::with('roles')->searchUser($search)->paginate(config('app.paginate'));
+            $data = [
+                'users' => $users,
+                'departments' => $departments,
+                'search' => $search,
+                'department_id' => $department_id,
+                'department_select' => $department_select,
+            ];
+            return view('backend.users.search', $data);
+        } else {
+            $users = User::with('roles')->paginate(config('app.paginate'));
+            $param = [
+                'users' => $users,
+                'departments' => $departments,
+            ];
+            return view('backend.users.index', $param);
+        }
     }
 
-//    function fetch_data(Request $request)
-//    {
-//        if ($request->ajax()) {
-//            $users = User::paginate(config('app.paginate'));
-//            return view('backend.user.pagination', compact('users'))->render();
-//        }
-//    }
+//}
 
     /**
      * Show the form for creating a new resource.
@@ -96,8 +114,14 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+        $rolesUser = DB::table('role_user')->where('user_id', $id)->first();
+        $role = DB::table('roles')->where('id', $rolesUser->role_id)->first();
+        $department = Department::where('id', $user->department_id)->first();
         $param = [
             'user' => $user,
+            'role' => $role,
+            'rolesUser' => $rolesUser,
+            'department' => $department,
         ];
         return view('backend.users.show', $param);
     }
@@ -111,8 +135,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('roles')->findOrFail($id);
+        $rolesUser = $user->roles()->get();
         $roles = Role::all();
-        $rolesUser = DB::table('role_user')->where('user_id', $id)->pluck('role_id');
         $departments = Department::all();
         $param = [
             'user' => $user,
@@ -121,6 +145,7 @@ class UserController extends Controller
             'rolesUser' => $rolesUser,
         ];
         return view('backend.users.edit', $param);
+
     }
 
     /**
@@ -153,19 +178,6 @@ class UserController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('user.index')->with(['error', 'Vui lòng kiểm tra lại']);
-
-//
-//        $input = $request->except('avatar');
-//        $request['password'] = Hash::make($request->password);
-//        if ($request->hasFile('avatar')) {
-//            Storage::disk('public')->delete('/' . $user->avatar);
-//            $storagePath = $request->avatar->store('avatar', ['disk' => 'public']);
-//            $input['avatar'] = $storagePath;
-//        } else {
-//            $input['avatar'] = config('app.avatar_icon');
-//        }
-//        $user->update($input);
-//        return redirect()->route('user.index')->with('success', 'User updated successfully!');
         }
     }
 
@@ -195,4 +207,12 @@ class UserController extends Controller
             'status' => User::destroy($request->id)
         ]);
     }
+
+    public function checkAdmin($id)
+    {
+        $userLogin = auth()->user()->id;
+        $userEdit = User::with('roles')->findOrFail($id);
+        $roleUser = $userEdit->roles()->get();
+    }
+
 }

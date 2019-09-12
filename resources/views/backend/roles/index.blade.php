@@ -22,7 +22,7 @@
                 <tr>
                     <th>Name <i class="fa fa-sort"></i></th>
                     <th>Display_name</th>
-                    <th>Action</th>
+                    <th width="5%">Action</th>
                 </tr>
                 <tbody>
                 @foreach($roles as $role)

@@ -19,5 +19,5 @@
         mounted() {
             console.log('Component mounted.')
         }
-    }
+    }pm
 </script>

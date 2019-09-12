@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
+    protected $table = 'reports';
     protected $fillable = [
         'note',
         'user_id',
+        'link_reference',
     ];
 
     use SoftDeletes;
@@ -25,5 +27,9 @@ class Report extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
     }
 }

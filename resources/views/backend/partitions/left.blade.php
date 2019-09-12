@@ -29,6 +29,6 @@
         </li>
 
         </li>
-        <li class=""><a href="{{ route('department.index') }}"><i class="fa fa-bar-chart-o"></i>&nbsp; Report</a></li>
+        <li class=""><a href="{{ route('report.index') }}"><i class="fa fa-bar-chart-o"></i>&nbsp; Report</a></li>
     </ul>
 </div>

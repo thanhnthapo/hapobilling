@@ -22,7 +22,7 @@
                 <tr>
                     <th>Permission <i class="fa fa-sort"></i></th>
                     <th>Description</th>
-                    <th>Action</th>
+                    <th width="10%">Action</th>
                 </tr>
                 <tbody>
                 @foreach($permissions as $permission)

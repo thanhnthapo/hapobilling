@@ -47,12 +47,12 @@ class AssignController extends Controller
      */
     public function store(CreateAssignRequest $request)
     {
-        $task = Task::find($request->task_id);
+        $task = Task::find($request->task);
         $user = User::findOrFail($request->user_id);
         $user->tasks()->save($task);
         $assign = $request->all();
         Assign::create($assign);
-        return redirect()->route('project.index');
+        return redirect()->route('project.index')->with('success', 'Thêm người vào dự án thành công!!!');
     }
 
     /**
@@ -86,11 +86,13 @@ class AssignController extends Controller
      */
     public function edit($id)
     {
-
-        $assign = Assign::findOrFail($id);
-        $users = User::get();
-        $project = Project::where('id', $assign->project_id)->first();
-        $tasks = Task::where('project_id', $project->id)->get();
+        $assign = Assign::with('user', 'project')->findOrFail($id);
+        $users = $assign->user()->get();
+        $project = $assign->project()->first();
+        foreach ($users as $user) {
+            $tasks = Task::where('project_id', $project->id)->where('user_id', $user->id)->get();
+            dd($tasks);
+        }
         $param = [
             'assign' => $assign,
             'tasks' => $tasks,
@@ -115,6 +117,7 @@ class AssignController extends Controller
     public function destroy($id)
     {
     }
+
     /**
      * Remove the specified resource from storage.
      *

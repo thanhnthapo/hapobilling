@@ -1,35 +1,42 @@
 $(function () {
+    $(document).ready(function(){
+        $(".alert-success").delay(2000).slideUp(500);
+    });
+
     $('.delete-user').click(function () {
-        var userId = $(this).attr('user-id');
-        $(this).parent().parent().parent().remove();
-        $.ajax({
-            url: '/admin/user/delete',
-            type: 'POST',
-            data: {id: userId},
-            success: function (res) {
+        if (confirm(`Xác nhận xóa User?`)) {
+            var userId = $(this).attr('user-id');
+            $(this).parent().parent().parent().remove();
+            $.ajax({
+                url: '/admin/user/delete',
+                type: 'POST',
+                data: {id: userId},
+                success: function (res) {
 
-            },
-            error: function (err) {
+                },
+                error: function (err) {
 
-            }
-        })
+                }
+            })
+        }
     });
 
     $('.delete-task').click(function () {
         var id = $(this).attr('task-id');
-        console.log(id);
-        $(this).parent().parent().parent().remove();
-        $.ajax({
-            url: '/admin/task/delete',
-            type: 'POST',
-            data: {id: id},
-            success: function (res) {
+        if (confirm('Xác nhận xóa task?')) {
+            $(this).parent().parent().parent().remove();
+            $.ajax({
+                url: '/admin/task/delete',
+                type: 'POST',
+                data: {id: id},
+                success: function (res) {
+                    console.log(res);
+                },
+                error: function (err) {
 
-            },
-            error: function (err) {
-
-            }
-        })
+                }
+            })
+        }
     });
 
 
@@ -53,8 +60,8 @@ $(function () {
         }
     });
 
-    $('#Mybtn').click(function () {
-        $('#MyForm').toggle(500);
+    $('#btnAssign').click(function () {
+        $('#assignForm').toggle(500);
     });
 
     $('.delete-project').click(function () {
@@ -78,13 +85,13 @@ $(function () {
 
     $('#project_id').on('change', function (e) {
         var project_id = e.target.value;
-        $.post('/admin/project/ajax-task?project_id=' +project_id, function (data) {
+        $.post('/admin/project/ajax-task?project_id=' + project_id, function (data) {
             $('#task_id').empty();
             $.each(data, function (index, tasks) {
-                $('#task_id').append(`<option value="` +tasks.id+ `">` + tasks.content + `</option>`)
+                $('#task_id').append(`<option value="` + tasks.id + `">` + tasks.content + `</option>`)
             })
         })
-    });
+    }).trigger('change');
 
     $('.delete-department').click(function () {
         var name = this.parentNode.parentNode.parentNode.cells[1].textContent;
@@ -122,6 +129,19 @@ $(function () {
                 }
             })
         }
+    });
+
+    $("#search-header").select2({
+        placeholder: "--- Search... ---",
+        allowClear: true,
+        tags: true,
+        tokenSeparators: [',', ' '],
+    });
+
+    $("#search-department").select2({
+        allowClear: true,
+        tags: true,
+        tokenSeparators: [',', ' '],
     });
 
 });

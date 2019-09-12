@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Input;
 
 class User extends Authenticatable
 {
@@ -79,5 +81,22 @@ class User extends Authenticatable
         return $this->hasMany(Department::class);
     }
 
+    public function deleteAjax(Request $request)
+    {
+        return response()->json([
+            'status' => User::destroy($request->id)
+        ]);
+    }
+
+    public function scopeSearchUser($query, $search)
+    {
+        $name = $search['name'];
+        $email = $search['email'];
+        return $query->orWhere([
+            ['name', 'like', "%$name%"],
+            ['email', 'like', "%$email%"]
+        ])
+            ->WhereIn('department_id', $search['department_id']);
+    }
 
 }

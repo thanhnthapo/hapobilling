@@ -26,10 +26,10 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'email' => 'required|email|unique:users,email,'.$this->user,
+            'email' => "unique:users,email,$this->id,id",
             'status' => 'required',
             'department_id' => 'required',
-            'avatar' => 'required|mimes:jpg,png,jpeg',
+            'avatar' => 'mimes:jpg,png,jpeg',
             'password' => 'required|min:6',
             'dob' => 'required|date',
         ];

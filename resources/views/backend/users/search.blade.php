@@ -17,20 +17,26 @@
                     <form class="form-horizontal form-flex" action="{{ route('user.index') }}" method="GET">
                         <div class="input-group col-sm-2">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input id="name" value="" type="text"
+                            <input id="name" value="{{ isset($search['name']) ? $search['name'] : ''  }}" type="text"
                                    class="form-control" name="name" placeholder="Tên.....">
                         </div>
                         <div class="input-group col-sm-2">
                             <span class="input-group-addon"><i class="fa fa-inbox"></i></span>
-                            <input id="email" value="" type="text"
+                            <input id="email" value="{{ isset($search['email']) ? $search['email'] : ''  }}" type="text"
                                    class="form-control" name="email" placeholder="Email....">
                         </div>
                         <div class="input-group col-sm-4">
+                            <strong class="control-label department">Department</strong>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-adjust"></i></span>
-                            <select class="form-control" id="search-header" name="department_id[]"
+                            <select class="form-control" id="search-department" name="department_id[]"
                                     multiple="multiple">
                                 @foreach($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    <option
+                                        value="{{ $department->id }}"
+                                        @if($department_select->contains($department->id)) selected="selected"
+                                        data-select2-id="{{ $department->id }}" @endif>
+                                        {{ $department->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -46,7 +52,7 @@
                         <th>Department</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th width="10%">Action</th>
                     </tr>
                     <tbody>
                     @foreach($users as $user)
@@ -66,7 +72,9 @@
                                     {{ $role->display_name }}
                                 @endforeach
                             </td>
-                            <td> {{ ($user->status == config('app.active')) ? 'active' : 'block' }}</td>
+                            <td>
+                                {{ ($user->status == config('app.active')) ? 'active' : 'block' }}
+                            </td>
                             <td class="action">
                                 <button type="submit" class="btn btn-info"><a
                                         href="{{ route('user.show',['id'=>$user->id]) }}"><i class="fa fa-eye"></i></a>
@@ -84,7 +92,7 @@
                     </tbody>
                     </thead>
                 </table>
-                {{ $users->links() }}
+                {{ $users->appends(['search' => $search])->links() }}
             </div>
         </div>
     </div>

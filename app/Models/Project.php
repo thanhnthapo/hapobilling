@@ -33,8 +33,19 @@ class Project extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public  function assigns()
+    public function assigns()
     {
         return $this->hasMany(Assign::class);
+    }
+
+    public function scopeSearchProject($query, $search)
+    {
+        $name = $search['name'];
+//        $start_date = $search['start_date'];
+//        $finish_date = $search['finish_date'];
+
+        return $data = $query->where('name', 'like', "%$name%")
+//            ->whereBetween('start_date', array($start_date, $finish_date))
+            ->WhereIn('customer_id', $search['customer_id']);
     }
 }
