@@ -25,8 +25,8 @@ class CreateProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50|unique:projects',
-            'start_date'   => 'required|date',
-            'finish_date'   => 'required|date',
+            'start_date'   => 'required|date|after:yesterday',
+            'finish_date'   => 'required|date|after:start_date',
             'customer_id'   => 'required',
         ];
     }

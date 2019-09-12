@@ -1,4 +1,8 @@
 $(function () {
+    $(document).ready(function(){
+        $(".alert-success").delay(2000).slideUp(500);
+    });
+
     $('.delete-user').click(function () {
         if (confirm(`Xác nhận xóa User?`)) {
             var userId = $(this).attr('user-id');
@@ -19,18 +23,20 @@ $(function () {
 
     $('.delete-task').click(function () {
         var id = $(this).attr('task-id');
-        $(this).parent().parent().parent().remove();
-        $.ajax({
-            url: '/admin/task/delete',
-            type: 'POST',
-            data: {id: id},
-            success: function (res) {
+        if (confirm('Xác nhận xóa task?')) {
+            $(this).parent().parent().parent().remove();
+            $.ajax({
+                url: '/admin/task/delete',
+                type: 'POST',
+                data: {id: id},
+                success: function (res) {
+                    console.log(res);
+                },
+                error: function (err) {
 
-            },
-            error: function (err) {
-
-            }
-        })
+                }
+            })
+        }
     });
 
 
@@ -54,8 +60,8 @@ $(function () {
         }
     });
 
-    $('#Mybtn').click(function () {
-        $('#MyForm').toggle(500);
+    $('#btnAssign').click(function () {
+        $('#assignForm').toggle(500);
     });
 
     $('.delete-project').click(function () {
@@ -85,7 +91,7 @@ $(function () {
                 $('#task_id').append(`<option value="` + tasks.id + `">` + tasks.content + `</option>`)
             })
         })
-    });
+    }).trigger('change');
 
     $('.delete-department').click(function () {
         var name = this.parentNode.parentNode.parentNode.cells[1].textContent;
@@ -125,11 +131,17 @@ $(function () {
         }
     });
 
-    $("#search-department").select2({
-        placeholder: "---Select a department---",
+    $("#search-header").select2({
+        placeholder: "--- Search... ---",
         allowClear: true,
         tags: true,
-        tokenSeparators: [',', ' ']
-    })
+        tokenSeparators: [',', ' '],
+    });
+
+    $("#search-department").select2({
+        allowClear: true,
+        tags: true,
+        tokenSeparators: [',', ' '],
+    });
 
 });

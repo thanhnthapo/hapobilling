@@ -35,7 +35,7 @@
                         <div class="col-sm-2">
                             <label>Project Name</label>
                             <select name="project_id" id="project_id" class="input-sm">
-                                <option selected disabled>-- Select a Project --</option>
+                                <option>-- Select a Project --</option>
                                 @foreach ($projects as $project)
                                     <option
                                         value="{{ $project->id }}" {{ ($project->id ==  old('project_id')) ? 'selected' : '' }}>
@@ -47,19 +47,19 @@
                         </div>
                         <div class="col-sm-2">
                             <label>Tasks Name</label>
-                            <select name="task" id="task_id" class="input-sm">
+                            <select name="task_id" id="task_id" class="input-sm">
                                 <option>-- Select a Task --</option>
                             </select>
-                            <p class="text-danger">{{ $errors->first('task')}}</p>
+                            <p class="text-danger">{{ $errors->first('user_id')}}</p>
                         </div>
                         <div class="col-sm-2">
                             <label>Start_Date</label>
-                            <input type="date" name="start_date" class="input-sm" value="{{ old('start_date') }}"/>
+                            <input type="date" name="start_date" class="input-sm"/>
                             <p class="text-danger">{{ $errors->first('start_date')}}</p>
                         </div>
                         <div class="col-sm-2">
                             <label>Finish_Date</label>
-                            <input type="date" name="finish_date" class="input-sm" value="{{ old('finish_date') }}"/>
+                            <input type="date" name="finish_date" class="input-sm"/>
                             <p class="text-danger">{{ $errors->first('finish_date')}}</p>
                         </div>
                         <div class="col-sm-2 m-3">
@@ -72,7 +72,7 @@
                     <form class="form-horizontal form-flex" action="{{ route('project.index') }}" method="GET">
                         <div class="input-group col-sm-2">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span>
-                            <input id="name" value="" type="text"
+                            <input id="name" value="{{ isset($search['name']) ? $search['name'] : ''  }}" type="text"
                                    class="form-control" name="name" placeholder="Project...">
                         </div>
                         <div class="input-group col-sm-4">
@@ -80,14 +80,14 @@
                             <select class="form-control" id="search-header" name="customer_id[]"
                                     multiple="multiple">
                                 @foreach($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    <option value="{{ $customer->id }}" @if($customer_selected->contains($customer->id)) selected="selected"
+                                            data-select2-id="{{ $customer->id }}" @endif>{{ $customer->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary submit">Tìm kiếm</button>
                     </form>
                 </div>
-                <table class></table>
                 <table class="table table-responsive table-bordered tablesorter table-hover text-center">
                     <thead>
                     <tr class="table-tr-header">
@@ -120,7 +120,6 @@
                                             <button type="submit" class="btn btn-outline-light text-dark"
                                                     onclick="window.location.href='{{ route('assign.show', $assign->id) }}'">
                                                 {{ $user->name }}
-
                                             </button>
                                             <button class="btn btn-assign"><a
                                                     href="{{ route('assign.edit', $assign->id) }}"><i
@@ -144,7 +143,7 @@
                     </thead>
                 </table>
 
-                {{ $projects->links() }}
+                {{ $projects->appends(['search' => $search])->links() }}
             </div>
         </div>
     </div>

@@ -15,10 +15,6 @@
     <!-- Add custom CSS here -->
     <link href="{{ asset('backend/css/sb-admin.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('backend/font-awesome/css/font-awesome.min.css') }}">
-    <!-- Page Specific CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
-
 </head>
 
 <body>

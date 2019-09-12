@@ -17,43 +17,48 @@
                     <form class="form-horizontal form-flex" action="{{ route('user.index') }}" method="GET">
                         <div class="input-group col-sm-2">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input id="name" type="text" class="form-control" name="name" placeholder="Tên.....">
+                            <input id="name" value="{{ isset($search['name']) ? $search['name'] : ''  }}" type="text"
+                                   class="form-control" name="name" placeholder="Tên.....">
                         </div>
                         <div class="input-group col-sm-2">
                             <span class="input-group-addon"><i class="fa fa-inbox"></i></span>
-                            <input id="email" type="text" class="form-control" name="email" placeholder="Email....">
+                            <input id="email" value="{{ isset($search['email']) ? $search['email'] : ''  }}" type="text"
+                                   class="form-control" name="email" placeholder="Email....">
                         </div>
-{{--                        <div class="input-group col-sm-4">--}}
-{{--                            <strong class="control-label department">Department</strong>--}}
-{{--                            <span class="input-group-addon"><i class="glyphicon glyphicon-adjust"></i></span>--}}
-{{--                            <select class="form-control" id="search-department" name="department[]" multiple="multiple">--}}
-{{--                                @foreach($departments as $department)--}}
-{{--                                    <option value="{{ $department->id }}">{{ $department->name }}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
+                        <div class="input-group col-sm-4">
+                            <strong class="control-label department">Department</strong>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-adjust"></i></span>
+                            <select class="form-control" id="search-department" name="department_id[]"
+                                    multiple="multiple">
+                                @foreach($departments as $department)
+                                    <option
+                                        value="{{ $department->id }}"
+                                        @if($department_select->contains($department->id)) selected="selected"
+                                        data-select2-id="{{ $department->id }}" @endif>
+                                        {{ $department->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary submit">Tìm kiếm</button>
                     </form>
                 </div>
                 <table class="table table-bordered tablesorter table-hover text-center">
                     <thead>
-                    <tr>
+                    <tr class="table-tr-header">
+                        <th>No.</th>
                         <th>Name <i class="fa fa-sort"></i></th>
-                        <th>Avatar</th>
-                        <th>Birthday <i class="fa fa-sort"></i></th>
                         <th>Email</th>
                         <th>Department</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th width="10%">Action</th>
                     </tr>
                     <tbody>
                     @foreach($users as $user)
                         <tr>
+                            <td>{{ $loop->iteration  }}</td>
                             <td><strong>{{ $user->name }}</strong></td>
-                            <td><img class="img-thumbnail img-user"
-                                     src="{{ asset('storage/'.$user->avatar) }}" alt=""></td>
-                            <td>{{ $user->dob }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 @foreach($departments as $department_name)
@@ -67,7 +72,9 @@
                                     {{ $role->display_name }}
                                 @endforeach
                             </td>
-                            <td>{{ $user->status }}</td>
+                            <td>
+                                {{ ($user->status == config('app.active')) ? 'active' : 'block' }}
+                            </td>
                             <td class="action">
                                 <button type="submit" class="btn btn-info"><a
                                         href="{{ route('user.show',['id'=>$user->id]) }}"><i class="fa fa-eye"></i></a>
@@ -77,7 +84,6 @@
                                 </button>
                                 <button class="btn btn-danger"><a class="delete-user"
                                                                   user-id="{{ $user->id }}"
-                                                                  onclick="return confirm('Xác nhận xóa?')"
                                                                   href="#"><i
                                             class="fa fa-trash-o"></i></a></button>
                             </td>
@@ -86,7 +92,7 @@
                     </tbody>
                     </thead>
                 </table>
-                {{ $users->links() }}
+                {{ $users->appends(['search' => $search])->links() }}
             </div>
         </div>
     </div>

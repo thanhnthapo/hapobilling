@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 <div class="content-header text-center">
-    <h2>Manager Customer</h2>
+    <h2>Manager Department</h2>
 </div>
 @section('content')
     <div class="container">
@@ -23,7 +23,7 @@
                     <tr>
                         <th>.No</th>
                         <th>Name <i class="fa fa-sort"></i></th>
-                        <th>Action</th>
+                        <th width="7%">Action</th>
                     </tr>
                     <tbody>
                     @foreach($departments as $key => $department)

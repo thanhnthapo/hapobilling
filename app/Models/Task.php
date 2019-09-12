@@ -34,4 +34,10 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public  function reports()
+    {
+        return $this->belongsToMany(Report::class);
+    }
+
 }

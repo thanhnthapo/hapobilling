@@ -88,16 +88,15 @@ class User extends Authenticatable
         ]);
     }
 
-    public function scopeSearch($query, $search)
+    public function scopeSearchUser($query, $search)
     {
-        $search = [
-            'name' => Input::get('name'),
-            'email' => Input::get('email'),
-            'department_id' => Input::get('department_id'),
-        ];
-        return $query->where('name', 'like', '%' . $search['name'] . '%')
-            ->orWhere('email', 'like', '%' . $search['name'] . '%')
-            ->orWhere('department_id', 'like', '%' . $search['department_id'] . '%');
+        $name = $search['name'];
+        $email = $search['email'];
+        return $query->orWhere([
+            ['name', 'like', "%$name%"],
+            ['email', 'like', "%$email%"]
+        ])
+            ->WhereIn('department_id', $search['department_id']);
     }
 
 }

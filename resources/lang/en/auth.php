@@ -15,5 +15,6 @@ return [
 
     'failed' => 'Email hoặc mật khẩu không chính xác.',
     'throttle' => 'Bạn đã đăng nhập quá số lần quy định: Vui lòng thử lại sau 30s.',
+    'notactivated' => 'Tài khoản của bạn đã bị khóa.',
 
 ];

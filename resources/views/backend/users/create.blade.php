@@ -59,25 +59,22 @@
                     <p class="text-danger">{{ $errors->first('password')}}</p>
                 </div>
                 <div class="form-group col-sm-8">
-                    <label>Status<span class="text-danger"> *</span></label>
-                    <input class="form-control" placeholder="" name="status" value="{{ old('status') }}">
-                    <p class="text-danger">{{ $errors->first('status')}}</p>
-                </div>
-{{--                <div class="form-group col-sm-6">--}}
-{{--                    <label for="status">Status</label>--}}
-{{--                    <label class="radio-custom">Active--}}
-{{--                        <input type="radio" name="status" value="1" {{(old('status')==1)?"checked="."checked":""}}>--}}
-{{--                        <span class="checkmark" ></span>--}}
-{{--                    </label>--}}
+                    <label for="status">Status<span class="text-danger"> *</span></label>
+                    <label class="radio-custom">Active
+                        <input type="radio" name="status"
+                               value="{{ config('app.active') }}" {{(old('status')==config('app.active'))?"checked="."checked":""}}>
+                        <span class="checkmark"></span>
+                    </label>
 
-{{--                    <label class="radio-custom">Block--}}
-{{--                        <input type="radio" name="status" value="0"{{(old('status')==0)?"checked="."checked":""}}>--}}
-{{--                        <span class="checkmark"></span>--}}
-{{--                    </label>--}}
-{{--                    @if($errors->has('status'))--}}
-{{--                        <span class="text-danger">{{$errors->first('status')}}</span>--}}
-{{--                    @endif--}}
-{{--                </div>--}}
+                    <label class="radio-custom">Block
+                        <input type="radio" name="status"
+                               value="{{ config('app.block') }}" {{(old('status')==config('app.block'))?"checked="."checked":""}}>
+                        <span class="checkmark"></span>
+                    </label>
+                    @if($errors->has('status'))
+                        <span class="text-danger">{{$errors->first('status')}}</span>
+                    @endif
+                </div>
                 <div class="form-group col-sm-8">
                     <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Thêm Mới</button>
                 </div>
