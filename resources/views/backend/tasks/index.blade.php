@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 <div class="content-header text-center">
-    <h2>Manager Projects</h2>
+    <h2>Manager Tasks</h2>
 </div>
 @section('content')
     <div class="container">
@@ -17,6 +17,7 @@
                 </div>
                 <div class="form-search d-flex">
                     <form action="/action_page.php">
+                        <input type="hidden" value="" id="">
                         <input type="text" placeholder="Search.." name="search-user">
                         <button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
                     </form>
@@ -27,14 +28,14 @@
                         <th>Project</th>
                         <th>Content <i class="fa fa-sort"></i></th>
                         <th>Start_date <i class="fa fa-sort"></i></th>
-                        <th>Finish_date <i class="fa fa-sort"></i></th>
+                        <th>Finish_date <i class="fa f'')a-sort"></i></th>
                         <th>UserName</th>
                         <th class="w-200">Action</th>
                     </tr>
                     <tbody>
                     @foreach($tasks as $task)
                         <tr>
-                            <td>
+                            <td >
                                 @foreach($projects as $project)
                                     @if($project->id == $task->project_id)
                                         {{ $project->name }}
@@ -44,16 +45,17 @@
                             <td>{{ $task->content }}</td>
                             <td>{{ $task->start_date }}</td>
                             <td>{{ $task->finish_date }}</td>
-                            <td>
+                            <td id="">
                                 @foreach($users as $user)
-                                    @foreach($assigns as $assign)
-                                        @if($user->id == $assign->user_id && $project->id == $assign->project_id)
+                                    @foreach($projects as $project)
+                                        @if($user->id == $task->user_id && $project->id == $task->project_id)
                                             <button class="btn btn-outline-light text-dark">
                                                 {{ $user->name }}
-                                                <a class="delete-assign"
-                                                   assign-id="{{ $assign->id }}"
-                                                   onclick="return confirm('Xóa {{ $user->name }} khỏi project {{ $project->name }}?')"
-                                                   href="#"><i class="fa fa-times-circle"></i></a>
+                                                <a
+                                                    class="delete-user-task"
+                                                    user-id="{{ $task->user_id }}"
+                                                    href="#"><i
+                                                        class="fa fa-times-circle"></i></a>
                                             </button>
                                         @endif
                                     @endforeach
@@ -64,8 +66,8 @@
                                         href="{{  route('task.edit', ['id' => $task->id])}}"><i
                                             class="fa fa-edit"></i></a>
                                 </button>
-                                <button class="btn btn-danger"><a class="delete-project"
-                                                                  project-id="{{ $task->id }}"
+                                <button class="btn btn-danger"><a class="delete-task"
+                                                                  task-id="{{ $task->id }}"
                                                                   onclick="return confirm('Xác nhận xóa?')"
                                                                   href="#"><i
                                             class="fa fa-trash-o"></i></a></button>
@@ -78,27 +80,4 @@
             </div>
         </div>
     </div>
-    </div>
-@endsection
-
-@section('js')
-    <script>
-        $(function () {
-            $('.delete-project').click(function () {
-                var projectId = $(this).attr('project-id');
-                $(this).parent().parent().parent().remove();
-                $.ajax({
-                    url: '/admin/project/delete',
-                    type: 'POST',
-                    data: {id: projectId},
-                    success: function (res) {
-
-                    },
-                    error: function (err) {
-
-                    }
-                })
-            })
-        })
-    </script>
 @endsection

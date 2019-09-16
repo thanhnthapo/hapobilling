@@ -48,7 +48,6 @@
                                 </button>
                                 <button class="btn btn-danger"><a class="delete-customer"
                                                                   customer-id="{{ $customer->id }}"
-                                                                  onclick="return confirm('Xác nhận xóa?')"
                                                                   href="#"><i
                                             class="fa fa-trash-o"></i></a></button>
                             </td>
@@ -61,26 +60,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script>
-        $(function () {
-            $('.delete-customer').click(function () {
-                var customerId = $(this).attr('customer-id');
-                $(this).parent().parent().parent().remove();
-                $.ajax({
-                    url: '/admin/customer/delete',
-                    type: 'POST',
-                    data: {id: customerId},
-                    success: function (res) {
-
-                    },
-                    error: function (err) {
-
-                    }
-                })
-            })
-        })
-    </script>
 @endsection
