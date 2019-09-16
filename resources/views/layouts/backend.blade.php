@@ -35,6 +35,8 @@
 </div><!-- /#wrapper -->
 
 <!-- JavaScript -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+<link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css">
 <script src="{{ asset('backend/js/jquery-1.10.2.js') }}"></script>
 <script src="{{ asset('backend/js/bootstrap.js') }}"></script>
 <!-- Page Specific Plugins -->

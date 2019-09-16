@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CreateAssignRequest;
 use App\Models\Assign;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AssignController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,17 @@ class AssignController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::all();
+        $assigns = Assign::all();
+        $users = User::select('id', 'name')->get();
+        $projects = Project::all();
+        $param = [
+            'tasks' => $tasks,
+            'users' => $users,
+            'projects' => $projects,
+            'assigns' => $assigns
+        ];
+        return view('backend.tasks.index', $param);
     }
 
     /**
@@ -28,13 +38,7 @@ class AssignController extends Controller
      */
     public function create()
     {
-        $users = User::select('id', 'name')->get();
-        $projects = Project::select('id', 'name')->get();
-        $param = [
-            'users' => $users,
-            'projects' => $projects,
-        ];
-        return view('backend.assigns.create', $param);
+        //
     }
 
     /**
@@ -43,10 +47,9 @@ class AssignController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateAssignRequest $request)
+    public function store(Request $request)
     {
-        Assign::create($request->all());
-        return redirect()->route('project.index');
+        //
     }
 
     /**
@@ -91,16 +94,6 @@ class AssignController extends Controller
      */
     public function destroy($id)
     {
-        $assign = Assign::find($id);
-        $assign->delete();
-
-        return redirect()->route('project.index')->with('success', 'The user has deleted from the project successfully!');
-    }
-
-    public function deleteAjax(Request $request)
-    {
-        return response()->json([
-            'status' => Assign::destroy($request->id)
-        ]);
+        //
     }
 }

@@ -11,7 +11,7 @@
 |
 */
 Auth::routes();
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth', 'isAdmin'], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', 'DashboardController@index')->name('backend.dashboard.index');
 
     Route::resource('user', 'UserController')->middleware('checkPermission:User');
@@ -20,10 +20,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::resource('project', 'ProjectController')->middleware('checkPermission:Project');
     Route::post('project/delete', 'ProjectController@DeleteAjax')->middleware('checkPermission:Project');
 
+    Route::resource('task', 'TaskController')->middleware('checkPermission:Project');
+    Route::post('project/ajax-task', 'ProjectController@AjaxTask');
+
     Route::resource('customer', 'CustomerController')->middleware('checkPermission:Customer');
     Route::post('customer/delete', 'CustomerController@DeleteAjax')->middleware('checkPermission:Customer');
 
     Route::resource('assign', 'AssignController');
+    Route::post('assign/delete', 'AssignController@DeleteAjax');
 
     Route::resource('department', 'DepartmentController')->middleware('checkPermission:Department');
     Route::post('department/delete', 'DepartmentController@DeleteAjax')->middleware('checkPermission:Department');
