@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Customer;
+use App\Http\Requests\CreateDepartmentRequest;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
 
-class CustomerController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,11 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::paginate(config('app.paginate'));
+        $departments = Department::paginate(config('app.paginate'));
         $param = [
-            'customers' => $customers,
+            'departments' => $departments,
         ];
-        return view('backend.customers.index', $param);
+        return view('backend.departments.index', $param);
     }
 
     /**
@@ -31,7 +30,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('backend.customers.create');
+        return view('backend.departments.create');
     }
 
     /**
@@ -40,10 +39,10 @@ class CustomerController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCustomerRequest $request)
+    public function store(CreateDepartmentRequest $request)
     {
-        Customer::create($request->all());
-        return redirect()->route('customer.index');
+        Department::create($request->all());
+        return redirect()->route('department.index')->with('success', 'Department created successfully!');;
     }
 
     /**
@@ -65,11 +64,11 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $customer = Customer::findOrFail($id);
+        $department = Department::findOrFail($id);
         $param = [
-            'customer' => $customer,
+            'department' => $department,
         ];
-        return view('backend.customers.edit', $param);
+        return view('backend.departments.edit', $param);
     }
 
     /**
@@ -79,18 +78,12 @@ class CustomerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, $id)
+    public function update(CreateDepartmentRequest $request, $id)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'dob' => $request->dob,
-            'address' => $request->address,
-        ]);
-        $customer->save();
-        return redirect()->route('customer.index');
+        $department = Department::findOrFail($id);
+        $department->update($request->all());
+        $department->save();
+        return redirect()->route('department.index')->with('success', 'Department upadte successfully!');;
     }
 
     /**
@@ -101,15 +94,15 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customer = Customer::find($id);
-        $customer->delete();
-        return redirect()->route('customer.index')->with('success', 'Customer deleted successfully!');
+        $department = Department::find($id);
+        $department->delete();
+        return redirect()->route('department.index')->with('success', 'Department deleted successfully!');
     }
 
     public function deleteAjax(Request $request)
     {
         return response()->json([
-            'status' => Customer::destroy($request->id)
+            'status' => Department::destroy($request->id)
         ]);
     }
 }

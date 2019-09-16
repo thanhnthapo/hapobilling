@@ -16,12 +16,14 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
         'password',
         'dob',
         'avatar',
+        'department_id',
         'status',
     ];
 
@@ -52,6 +54,11 @@ class User extends Authenticatable
      */
     protected $dates = ['deleted_at'];
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function tasks()
     {
         return $this->hasMany(Task::class);
@@ -62,8 +69,15 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
-    public  function assigns()
+    public function assigns()
     {
         return $this->hasMany(Assign::class);
     }
+
+    public function departments()
+    {
+        return $this->hasMany(Department::class);
+    }
+
+
 }

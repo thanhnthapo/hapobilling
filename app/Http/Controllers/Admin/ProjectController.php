@@ -58,7 +58,7 @@ class ProjectController extends Controller
     public function store(CreateProjectRequest $request)
     {
         Project::create($request->all());
-        return redirect()->route('project.index');
+        return redirect()->route('project.index')->with('success', 'Project created successfully!');;
     }
 
     /**
@@ -120,5 +120,12 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $project->delete();
         return redirect()->route('project.index')->with('success', 'Project deleted successfully!');
+    }
+
+    public function deleteAjax(Request $request)
+    {
+        return response()->json([
+            'status' => Project::destroy($request->id)
+        ]);
     }
 }

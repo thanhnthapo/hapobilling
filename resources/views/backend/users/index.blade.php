@@ -24,6 +24,8 @@
                     <th>Avatar</th>
                     <th>Birthday <i class="fa fa-sort"></i></th>
                     <th>Email</th>
+                    <th>Department</th>
+                    <th>Role</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -35,26 +37,39 @@
                                  src="{{ asset('storage/'.$user->avatar) }}" alt=""></td>
                         <td>{{ $user->dob }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>
+                            @foreach($departments as $department_name)
+                                @if($department_name->id == $user->department_id)
+                                    {{ $department_name->name }}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($user->roles as $role)
+                                {{ $role->display_name }}
+                            @endforeach
+                        </td>
                         <td>{{ $user->status }}</td>
-                        <td class="d-flex">
-                            <button class="btn btn-info"><a
-                                    href="{{ route('user.show',['id'=>$user->id]) }}"><i
-                                        class="fa fa-eye"></i></a>
+                        <td class="action">
+                            <button type="submit" class="btn btn-info"><a
+                                    href="{{ route('user.show',['id'=>$user->id]) }}"><i class="fa fa-eye"></i></a>
                             </button>
-                            <button class="btn btn-warning"><a
-                                    href="{{ route('user.edit',['id'=>$user->id]) }}"><i
-                                        class="fa fa-edit"></i></a>
+                            <button type="submit" class="btn btn-warning"><a
+                                    href="{{ route('user.edit',['id'=>$user->id]) }}"><i class="fa fa-edit"></i></a>
                             </button>
-                            {!! Form::open([
-                                'type' => 'hidden',
-                                'method'=>'post',
-                                'route'=>['user.destroy', $user->id]]) !!}
-                            {!! Form::hidden('_method','delete') !!}
-                            {!! csrf_field()!!}
-                            <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Xác nhận xóa?')"><i class="fa fa-trash-o"></i>
-                            </button>
-                            {!! Form::close() !!}
+                            <button class="btn btn-danger"><a class="delete-user"
+                                                              user-id="{{ $user->id }}"
+                                                              onclick="return confirm('Xác nhận xóa?')"
+                                                              href="#"><i
+                                        class="fa fa-trash-o"></i></a></button>
+                            {{--                            <form method="POST" action="{{ route('user.destroy', [$user->id]) }}">--}}
+                            {{--                                {{ csrf_field() }}--}}
+                            {{--                                {{ method_field('DELETE') }}--}}
+                            {{--                                <button class="btn btn-danger" type="submit" title="Delete"--}}
+                            {{--                                        onclick="return confirm('Bạn có chắc chắng muốn xóa {{ $user->name }} ?')">--}}
+                            {{--                                    <i class="fa fa-trash-o"></i>--}}
+                            {{--                                </button>--}}
+                            {{--                            </form>--}}
                         </td>
                     </tr>
                 @endforeach
@@ -64,5 +79,26 @@
             {{ $users->links() }}
         </div>
     </div>
+@endsection
 
+@section('js')
+    <script>
+        $(function () {
+            $('.delete-user').click(function () {
+                var userId = $(this).attr('user-id');
+                $(this).parent().parent().parent().remove();
+                $.ajax({
+                    url: '/admin/user/delete',
+                    type: 'POST',
+                    data: {id: userId},
+                    success: function (res) {
+
+                    },
+                    error: function (err) {
+
+                    }
+                })
+            })
+        })
+    </script>
 @endsection
