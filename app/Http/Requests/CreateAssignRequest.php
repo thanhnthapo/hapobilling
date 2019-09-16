@@ -25,6 +25,7 @@ class CreateAssignRequest extends FormRequest
     {
         return [
             'user_id' => 'required',
+            'project_id' => 'required',
             'start_date' => 'required|date',
             'finish_date' => 'required|after:start_date',
         ];
